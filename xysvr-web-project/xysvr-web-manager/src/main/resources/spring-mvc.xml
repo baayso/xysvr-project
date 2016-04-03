@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+	    http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+    default-lazy-init="false">
+
+
+    <!-- 自动扫描且只扫描@Controller -->
+    <context:component-scan base-package="cn.xyspace.xysvr" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+    </context:component-scan>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" />
+            </bean>
+            <!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="true" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- Beetl ViewResolver 视图处理器配置 -->
+    <bean id="beetlConfig" class="org.beetl.ext.spring.BeetlGroupUtilConfiguration" init-method="init">
+        <property name="configFileResource" value="classpath:beetl.properties" />
+    </bean>
+    <bean id="viewResolver" class="org.beetl.ext.spring.BeetlSpringViewResolver">
+        <property name="config" ref="beetlConfig" />
+        <property name="contentType" value="text/html;charset=UTF-8" />
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".html" />
+    </bean>
+
+    <!-- 容器默认的DefaultServletHandler处理所有静态内容与无RequestMapping处理的URL -->
+    <mvc:default-servlet-handler />
+
+    <!-- 定义无需Controller的url<->view直接映射 -->
+    <mvc:view-controller path="/" view-name="redirect:/index" />
+
+    <!-- 对异常统一进行处理 -->
+    <bean id="exceptionResolver" class="cn.xyspace.xysvr.common.core.exception.handler.JsonSimpleMappingExceptionResolver" />
+
+    <!-- 将Controller抛出的异常转到特定View, 保持SiteMesh的装饰效果
+        <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+        <props>
+        <prop key="java.lang.Throwable">error/500</prop>
+        </props>
+        </property>
+        </bean>
+    -->
+
+    <mvc:interceptors>
+
+        <!-- 直接定义在mvc:interceptors根下面的Interceptor将拦截所有请求 -->
+
+        <!-- 性能监控拦截器 -->
+        <bean class="cn.xyspace.xysvr.common.tool.interceptor.PerformanceInterceptor" />
+
+        <!-- 清除当前线程数据库类型拦截器 -->
+        <bean class="cn.xyspace.xysvr.common.core.dao.datasource.interceptor.ClearDBTypeInterceptor" />
+
+        <!--<bean class="cn.xyspace.xysvr.function.interceptor.UserUseLogInterceptor" /> -->
+
+    </mvc:interceptors>
+
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="cn.xyspace.xysvr.function.manager.user.web.bind.method.CurrentUserMethodArgumentResolver" />
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+    <!-- 控制器异常处理 -->
+    <bean class="cn.xyspace.xysvr.web.manager.user.exception.DefaultExceptionHandler" />
+
+    <import resource="spring/spring-mvc-shiro.xml" />
+
+</beans>

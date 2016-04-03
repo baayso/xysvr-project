@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.common.sysprompt.dao.ISyspromptZhcnMybatisDao">
+
+    <!-- 查询中文系统提示列表 （前台使用） -->
+    <select id="selects" resultType="cn.xyspace.xysvr.common.sysprompt.entity.SyspromptZhcn">
+        <![CDATA[
+        SELECT
+            id,
+            module,
+            code,
+            content,
+            mtime
+        FROM
+            t_sysprompt_zhcn
+        ORDER BY
+            code
+        ]]>
+    </select>
+
+    <!-- 查询中文系统提示列表 （后台使用） -->
+    <select id="query" parameterType="java.lang.Integer" resultType="cn.xyspace.xysvr.common.sysprompt.entity.SyspromptZhcn">
+        <![CDATA[
+        SELECT
+            id,
+            module,
+            code,
+            content,
+            mtime
+        FROM
+            t_sysprompt_zhcn
+        ]]>
+        <where>
+            <if test="code != null">
+                code = #{code}
+            </if>
+        </where>
+        <![CDATA[
+        ORDER BY
+            code
+        ]]>
+    </select>
+
+    <!-- 根据ID查询中文系统提示 -->
+    <select id="selectById" resultType="cn.xyspace.xysvr.common.sysprompt.entity.SyspromptZhcn">
+        <![CDATA[
+        SELECT
+            id,
+            module,
+            code,
+            content,
+            mtime
+        FROM
+            t_sysprompt_zhcn
+        WHERE
+            id = #{id}
+        ]]>
+    </select>
+
+    <!-- 更新中文系统提示 -->
+    <update id="update">
+        <![CDATA[
+        UPDATE
+            t_sysprompt_zhcn
+        SET
+            content = #{content},
+            mtime = #{mtime}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+</mapper>

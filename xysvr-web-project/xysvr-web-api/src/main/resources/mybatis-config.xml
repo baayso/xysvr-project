@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+
+<configuration>
+
+    <settings>
+        <!-- 全局性地启用或禁用所有在mapper配置文件中配置的缓存，默认：true -->
+        <setting name="cacheEnabled" value="false" />
+
+        <!-- 全局性地启用或禁用延迟加载（当禁用时，所有关联的配置都会立即加载 ），默认：true -->
+        <setting name="lazyLoadingEnabled" value="true" />
+
+        <!-- 允许或禁止从单一的语句返回多个结果 multipleResultSetsEnabled集（需要驱动程序兼容），默认：true -->
+        <setting name="multipleResultSetsEnabled" value="true" />
+
+        <!-- 使用列的标签而不是列的名称，默认：true -->
+        <setting name="useColumnLabel" value="true" />
+
+        <!-- 配置默认的执行器，默认：SIMPLE -->
+        <!-- SIMPLE：简单的执行器 -->
+        <!-- REUSE：重用 prepared statements的执行器 -->
+        <!-- BATCH：重用 statements并且进行批量更新的执行器 -->
+        <setting name="defaultExecutorType" value="REUSE" />
+
+        <!-- 设置查询数据库超时时间，默认：Not Set(null) -->
+        <setting name="defaultStatementTimeout" value="25000" />
+    </settings>
+
+    <plugins>
+        <!-- mybatis分页插件，com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="postgresql" />
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+            <!-- 和startPage中的pageNum效果一样 -->
+            <property name="offsetAsPageNum" value="true" />
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+            <property name="rowBoundsWithCount" value="true" />
+            <!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+            <!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型） -->
+            <property name="pageSizeZero" value="true" />
+            <!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+            <!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+            <!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+            <property name="reasonable" value="true" />
+        </plugin>
+
+        <!-- mybatis分表插件
+            <plugin interceptor="com.google.code.shardbatis.plugin.ShardPlugin">
+            <property name="shardingConfig" value="mybatis-shard_config.xml" />
+            </plugin>
+        -->
+    </plugins>
+
+</configuration>

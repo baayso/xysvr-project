@@ -1,0 +1,83 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["系统提示管理","修改英文系统提示"]}){}%>
+<!-- 引入header模板 start -->
+
+<script type="text/javascript">
+   function returnHomePage() {
+      location.href = "${ctxPath}/sysprompt/en/list";
+    }
+   
+   $(function() {
+       $("#checkForm").validate({
+           errorPlacement : function(error, element) {
+               var error_td = element.next('em');
+               error_td.find('.field_notice').hide();
+               error_td.append(error);
+           },
+           success : function(label) {
+               label.addClass('validate_right').text('OK!');
+           },
+           onkeyup : false,
+           rules : {
+               content : {
+                   required : true,
+                   minlength : 1,
+                   maxlength : 250
+               }
+           },
+           messages : {
+               content : {
+                  required : "请输入提示内容",
+                  maxlength : "不能超过250个字符（包含标点符号和空格）"
+           }
+           },
+       });
+   });
+   
+</script>
+
+<script></script>
+<form id="checkForm" class="am-form" action="${ctxPath}/sysprompt/en/edit/${syspromptEn.id}" method="post">
+    <fieldset>
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">
+                           模块
+            </div>
+            <div class="am-u-sm-4 am-u-end">
+                <input type="text" name="module" value="${syspromptEn.module}" disabled>
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">
+                            编码
+            </div>
+            <div class="am-u-sm-4 am-u-end">
+                <input type="text" name="code" value="${syspromptEn.code}" disabled>
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">
+                            提示内容
+            </div>
+            <div class="am-u-sm-4 am-u-end">
+                <textarea rows="5" id="content" name="content">${syspromptEn.content}</textarea>
+                <em><label class="field_notice"></label></em>
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm submit-div">
+                <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+                    <i class="am-icon-edit"></i>&nbsp;&nbsp;&nbsp;修改
+                </button>
+                <button type="reset" class="am-btn am-btn-primary am-btn-sm submit-r" onclick="returnHomePage()">
+                    <i class="am-icon-rotate-left"></i>&nbsp;&nbsp;&nbsp;返回
+                </button>
+        </div>
+    </fieldset>
+</form>
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

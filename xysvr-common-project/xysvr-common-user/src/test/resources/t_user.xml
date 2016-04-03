@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+
+    <t_user id="1" username="admin1" nickname="admin1" name="admin1" password="0d14c08459da63c947aa1d92aa4bce13"
+        salt="lIFQaEFi68" is_audited="TRUE" is_activated="TRUE" reg_ip="127.0.0.1" reg_longitude="0.0" reg_latitude="0.0"
+        reg_city="未知" create_time="0" />
+
+    <t_user_asset id="1" money="100" />
+
+</dataset>

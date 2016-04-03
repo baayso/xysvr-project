@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html class="no-js" lang="zh-CN">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="alternate icon" type="image/png" href="${ctxPath}/static/i/favicon.png">
+
+    <link rel="stylesheet" href="${ctxPath}/lib/amazeui/css/amazeui.min.css">
+
+    <script type="text/javascript" src="${ctxPath}/lib/jquery/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="${ctxPath}/lib/amazeui/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/lib/amazeui/js/amazeui.legacy.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/lib/amazeui/js/amazeui.widgets.helper.min.js"></script>
+
+    <style>
+        .header {
+          text-align: center;
+        }
+        .header h1 {
+          font-size: 200%;
+          color: #333;
+          margin-top: 30px;
+        }
+        .header p {
+          font-size: 14px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="header"> 
+      <hr />
+    </div>
+
+	<div class="am-g">
+    	<div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+            <h2>南京小优信息科技后台管理系统</h2>
+            <hr>
+            <div class="am-btn-group">
+                <a href="http://www.xy-space.cn" target="_blank" class="am-btn am-btn-success am-btn-sm"><i class="am-icon-home am-icon-sm"></i> 南京小优信息科技有限公司</a>
+                <!--
+                <a href="#" class="am-btn am-btn-success am-btn-sm"><i class="am-icon-google-plus-square am-icon-sm"></i> Google+</a>
+                <a href="#" class="am-btn am-btn-primary am-btn-sm"><i class="am-icon-stack-overflow am-icon-sm"></i> stackOverflow</a>
+                -->
+            </div>
+            <br>
+            <br>
+
+            <% if(shiroLoginFailure != null) { %>
+                <div class="am-alert am-alert-warning">
+                    ${shiroLoginFailure}
+                </div>
+                <br>
+            <% } %>
+
+            <form method="POST" action="${ctxPath}/user/login" class="am-form">
+                <label for="username">用户名:</label>
+                <input type="text" id="username" name="username" value="" />
+                <br>
+                <label for="password">密&nbsp;&nbsp;&nbsp;码:</label>
+                <input type="password" id="password" name="password" value="" />
+                <br>
+                <!-- <label for="rememberMe">
+                    <input id="rememberMe" name="rememberMe" type="checkbox" />&nbsp;记住密码
+                </label> -->
+                <br />
+                <br />
+                <div class="am-cf">
+                    <input type="submit" name="" value="登&nbsp;&nbsp;录" class="am-btn am-btn-primary am-btn-sm am-fl" />
+                    <!-- <button class="am-btn am-btn-default am-btn-sm am-fr" data-am-modal="{target: '#my-alert'}">忘记密码 ^_^?</button> -->
+                </div>
+            </form>
+
+            <hr>
+            <p>&copy; 2014 Nanjing Xiaoyou Information Technology Co.,Ltd. All rights reserved.</p>
+
+    	</div>
+    </div>
+
+</body>
+
+<script type="text/javascript">
+    if(window.parent != window){
+    	window.parent.location.reload(true);
+    }
+</script>
+
+</html>

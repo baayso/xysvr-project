@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cn.xyspace.xysvr</groupId>
+        <artifactId>xysvr-function-project</artifactId>
+        <version>1.1.0.BETA</version>
+        <relativePath>../xysvr-function-project</relativePath>
+    </parent>
+
+    <artifactId>xysvr-function-manager</artifactId>
+    <name>Xiaoyou Xiaoyao Server Function-Manager</name>
+    <description>Xiaoyou Xiaoyao Server Function-Manager</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+
+        <!-- xysvr-common-user -->
+        <dependency>
+            <groupId>cn.xyspace.xysvr</groupId>
+            <artifactId>xysvr-common-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- xysvr-common-notify -->
+        <dependency>
+            <groupId>cn.xyspace.xysvr</groupId>
+            <artifactId>xysvr-common-notify</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- WEB begin -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <!-- WEB end -->
+
+        <!-- TEST begin -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+        </dependency>
+        <!-- TEST end -->
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

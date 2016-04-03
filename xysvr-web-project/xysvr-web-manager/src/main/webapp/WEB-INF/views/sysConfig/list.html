@@ -1,0 +1,105 @@
+<!-- 引入header模板 start -->
+<%include("../common/header.html",{'stageArr':["系统配置信息管理","系统配置信息列表"]}){}%>
+<!-- 引入header模板 start -->
+<script type="text/javascript">
+    function updateSysConfig(sysconfigId) {
+        location.href = "../sysConfig/editUI/" + sysconfigId;
+    }
+    $(function() {
+    	$("#workerListTab").tablesorter({
+    		widgets: ['zebra','columnHighlight','rowHover'],
+    		headers:{ 2: { sorter: false}, 3: { sorter: false}, 5: { sorter: false}}																		
+    	});
+    });
+    
+    jQuery.validator.addMethod("isType", function(value, element){
+    	var ereg = /^[\u4e00-\u9fa5\uFE30-\uFFA0]{0,15}$/;
+    	if (!value.match(ereg)) {
+    		return false;
+    	}
+    	return true;
+    }, "配置类型应为16位以内的中文字符");
+    jQuery.validator.addMethod("isName", function(value, element){
+    	var ereg = /^[a-zA-Z0-9_]{0,15}$/;
+    	if (!value.match(ereg)) {
+    		return false;
+    	}
+    	return true;
+    }, "配置名称应是16位以内只包含字母、数字、英文下划线的字符");
+    $(function(){
+        $("#searchForm").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.next('em');
+                error_td.find('.field_notice').hide();
+                error_td.append(error);
+            },
+            success: function(label){
+                label.addClass('validate_right').text('OK!');
+            },
+            onkeyup: false,
+            rules: {
+                type:{isType:true},
+                name:{isName:true}
+            },
+            messages: {
+            },
+        });
+    });
+</script>
+<form class="am-form-inline" action="list" method="post" id="searchForm">
+    配置类型 ：<input type="text" id="type" name="type" value="${type}" placeholder="配置类型" class="am-form-field" style="width: 300px;">
+         <em><label class="field_notice"></label></em>&nbsp;&nbsp;&nbsp; 
+    配置名称 ：<input type="text" id="name" name="name" value="${name}" placeholder="配置名称" class="am-form-field" style="width: 300px;">
+         <em><label class="field_notice"></label></em>&nbsp;&nbsp;&nbsp;
+    <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+        <i class="am-icon-search"></i>&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;
+    </button>
+</form>
+<br />
+<table id="workerListTab" class="am-table am-table-bordered am-table-striped am-table-hover tablesorter">
+    <thead>
+        <tr>
+            <th>编号</th>
+            <th>类型</th>
+            <th>名称</th>
+            <th>值</th>
+            <th>描述</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(sysconfig in pageInfo.list){ %>
+        <tr>
+            <td>${sysconfigLP.index}</td>
+            <td>${sysconfig.type}</td>
+            <td>${sysconfig.name}</td>
+            <td>${sysconfig.value}</td>
+            <td>${sysconfig.descriptions}</td>
+            <td><script type="text/javascript">
+                        var time = getLocalTime(${sysconfig.mtime});
+                        document.write(time);
+                </script>
+            </td>
+            <td>
+                <button type="button" class="am-btn am-btn-primary am-btn-xs"
+                    onclick="updateSysConfig('${sysconfig.id}')">
+                    <i class="am-icon-edit"></i>&nbsp;&nbsp;&nbsp;修改
+                </button> <!-- 
+                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="deleteToken('${sysconfig.id}')">
+                    <i class="am-icon-trash"></i>&nbsp;&nbsp;&nbsp;删除
+                </button>
+                 -->
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<!-- 引入带查询参数的分页模板 start -->
+<%include("../common/searchPage.html",{'parameter':["type",type,"name",name]}){}%>
+<!-- 引入带查询参数的分页模板 end -->
+
+<!-- 引入bottom start -->
+<%include("../common/bottom.html"){}%>
+<!-- 引入bottom end -->

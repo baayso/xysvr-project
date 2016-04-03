@@ -1,0 +1,46 @@
+
+<div class="am-container page-div">
+    <ul data-am-widget="pagination" class="am-pagination am-pagination-default " style="text-align:center;">
+
+        <li class="am-pagination-first">
+        <% if (pageInfo.hasPreviousPage) { %>
+            <a href="?pageNumber=1">首页</a>
+        <% } else { %>
+            <a class="am-btn am-btn-default am-disabled">首页</a>
+        <% } %>
+        </li>
+
+        <li class="am-pagination-prev">
+        <% if (pageInfo.hasPreviousPage) { %>
+            <a href="?pageNumber=${pageInfo.prePage}">上一页</a>
+        <% } else { %>
+            <a class="am-btn am-btn-default am-disabled">上一页</a>
+        <% } %>
+        </li>
+
+        <% for(i in pageInfo.navigatepageNums) { %>
+            <% if (i == pageInfo.pageNum) { %>
+                <li class="am-active"><a style="z-index:0">${i}</a></li>
+            <% } else { %>
+                <li><a href="?pageNumber=${i}">${i}</a></li>
+            <% } %>
+        <% } %>
+
+        <li class="am-pagination-next">
+        <% if (pageInfo.hasNextPage) { %>
+            <a href="?pageNumber=${pageInfo.nextPage}">下一页</a>
+        <% } else { %>
+            <a class="am-btn am-btn-default am-disabled">下一页</a>
+        <% } %>
+        </li>
+
+        <li class="am-pagination-last">
+        <% if (pageInfo.hasNextPage) { %>
+        	<a href="?pageNumber=${pageInfo.pages}">末页</a>
+        <% } else { %>
+            <a class="am-btn am-btn-default am-disabled">末页</a>
+        <% } %>
+        </li>
+
+    </ul>
+</div>

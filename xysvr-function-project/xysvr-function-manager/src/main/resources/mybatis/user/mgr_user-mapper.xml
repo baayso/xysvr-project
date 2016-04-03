@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.user.dao.IMgrUserMybatisDao">
+
+    <resultMap id="mgrUserResultMap" type="cn.xyspace.xysvr.function.manager.user.entity.MgrUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="gender" property="gender" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+        <result column="birthday" property="birthday"/>
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email"/>
+        <result column="address" property="address"/>
+        <result column="is_locked" property="isLocked"/>
+        <result column="is_disabled" property="isDisabled"/>
+        <result column="is_audited" property="isAudited"/>
+        <result column="is_activated" property="isActivated"/>
+        <result column="is_admin" property="isAdmin"/>
+        <result column="create_ip" property="createIp"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="intro" property="intro"/>
+        <result column="icon_path" property="iconPath"/>
+        <result column="size" property="size"/>
+        <result column="mime" property="mime"/>
+        <result column="extname" property="extname"/>
+        <result column="hash" property="hash"/>
+        <result column="width" property="width"/>
+        <result column="height" property="height"/>
+        <result column="uptime" property="uptime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="user_column">
+        <![CDATA[
+        id,
+        username,
+        nickname,
+        name,
+        password,
+        salt,
+        gender,
+        birthday,
+        telephone,
+        email,
+        address,
+        is_locked,
+        is_disabled,
+        is_audited,
+        is_activated,
+        is_admin,
+        create_ip,
+        create_time,
+        last_login_time,
+        intro,
+        icon_path,
+        size,
+        mime,
+        extname,
+        hash,
+        width,
+        height,
+        uptime,
+        is_deleted
+        ]]>
+    </sql>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrUser">
+        <![CDATA[
+        INSERT INTO t_mgr_user
+        (
+            id,
+            username,
+            nickname,
+            password,
+            salt,
+            gender,
+            email,
+            is_audited,
+            is_activated,
+            is_admin,
+            create_ip,
+            create_time
+        )
+        VALUES
+        (
+            #{id},
+            #{username},
+            #{nickname},
+            #{password},
+            #{salt},
+            #{gender, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+            #{email},
+            #{isAudited},
+            #{isActivated},
+            #{isAdmin},
+            #{createIp},
+            #{createTime}
+        )
+        ]]>
+    </insert>
+
+    <!-- 根据主键更新用户密码和密码盐 -->
+    <update id="updatePassword">
+        <![CDATA[ UPDATE t_mgr_user SET password = #{newPassword}, salt = #{salt} WHERE id = #{id} ]]>
+    </update>
+
+    <!-- 根据主键更新用户最后登录时间戳 -->
+    <update id="updateLastLoginTime">
+        <![CDATA[ UPDATE t_mgr_user SET last_login_time = #{lastLoginTime} WHERE id = #{id} ]]>
+    </update>
+
+    <!-- 更新用户的头像信息 -->
+    <update id="updateUserIcon" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrUser">
+        <![CDATA[
+        UPDATE
+            t_mgr_user
+        SET
+            icon_path = #{iconPath},
+            size = #{size},
+            mime = #{mime},
+            extname = #{extname},
+            hash = #{hash},
+            width = #{width},
+            height = #{height},
+            uptime = #{uptime}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 查询用户名数目 -->
+    <select id="selectCountUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[ SELECT COUNT(*) FROM t_mgr_user WHERE username = #{username} ]]>
+    </select>
+
+    <!-- 查询email数目 -->
+    <select id="selectCountEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[ SELECT COUNT(*) FROM t_mgr_user WHERE email = #{email} ]]>
+    </select>
+
+    <!-- 根据主键查询用户 -->
+    <select id="selectById" parameterType="java.lang.String" resultMap="mgrUserResultMap">
+        SELECT
+        <include refid="user_column" />
+        FROM t_mgr_user
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="mgrUserResultMap">
+        SELECT
+        <include refid="user_column" />
+        FROM t_mgr_user
+        WHERE username = #{username}
+    </select>
+
+    <!-- 用户修改个人资料 -->
+    <update id="updateUserInfo" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrUser">
+        <![CDATA[
+        UPDATE
+            t_mgr_user
+        SET
+        ]]>
+        <if test=" nickname!= null &amp;&amp; nickname.length()>0">
+            nickname = #{nickname},
+        </if>
+        <if test=" name!= null &amp;&amp; name.length()>0">
+            name = #{name},
+        </if>
+        <if test=" gender!= null">
+            gender = #{gender,typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+        </if>
+        <if test=" email!= null &amp;&amp; email.length()>0">
+            email = #{email},
+        </if>
+        <if test=" birthday!= null &amp;&amp; birthday.length()>0">
+            birthday = #{birthday},
+        </if>
+        <if test=" telephone!= null &amp;&amp; telephone.length()>0">
+            telephone = #{telephone},
+        </if>
+        <if test=" address!= null &amp;&amp; address.length()>0">
+            address = #{address},
+        </if>
+        <if test=" isLocked!= null">
+            is_locked = #{isLocked},
+        </if>
+        <if test="isDisabled != null">
+            is_disabled = #{isDisabled},
+        </if>
+        <if test=" isAudited!= null">
+            is_audited = #{isAudited},
+        </if>
+        <if test=" isActivated!= null">
+            is_activated = #{isActivated},
+        </if>
+        <if test=" isAdmin!= null">
+            is_admin = #{isAdmin},
+        </if>
+        intro = #{intro}
+        WHERE
+        id = #{id}
+
+    </update>
+
+    <!-- 查询除当前用户以外的email数目 -->
+    <select id="selectSumEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[
+         SELECT
+            COUNT(*) 
+         FROM
+            t_mgr_user
+         WHERE
+            email = #{email} AND id <> #{userId}
+        ]]>
+    </select>
+
+    <!-- 查询所有后台管理员 -->
+    <select id="selectsUser" resultMap="mgrUserResultMap">
+        SELECT
+        <include refid="user_column" />
+        FROM
+        t_mgr_user
+        WHERE
+        is_deleted = false
+        ORDER BY id
+    </select>
+
+<!--     根据用户名查询用户 关联查询出角色信息
+    <select id="selectRoles" parameterType="java.lang.String" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrRole">
+        SELECT
+        <include refid="user_column" />
+        FROM t_mgr_role
+        WHERE username = #{username}
+    </select> -->
+    
+    <!-- 根据用户名查询用户 关联查询出角色信息-->
+    <select id="selectByUsernameWithRoles" parameterType="java.lang.String" resultMap="mgrUserResultMap">
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.name,
+            u.password,
+            u.salt,
+            u.gender,
+            u.birthday,
+            u.telephone,
+            u.email,
+            u.address,
+            u.is_locked,
+            u.is_disabled,
+            u.is_audited,
+            u.is_activated,
+            u.is_admin,
+            u.create_ip,
+            u.create_time,
+            u.last_login_time,
+            u.intro,
+            u.icon_path,
+            u.size,
+            u.mime,
+            u.extname,
+            u.hash,
+            u.width,
+            u.height,
+            u.uptime,
+            u.is_deleted,
+            r.id AS roleId,
+            r.name AS roleName,
+            r.permission_ids AS permissionIds,
+            r.is_available AS isAvailable,
+            r.descriptions
+        FROM
+            t_mgr_user_role ur
+            LEFT JOIN t_mgr_user u on u.id = ur.user_id
+        	LEFT JOIN t_mgr_role r on r.id = ur.role_id
+        WHERE username = #{username}
+    </select>
+    
+    <!-- 根据主键(ID)删除权限。 -->
+    <delete id="updateToDelete" parameterType="java.lang.String">
+        <![CDATA[
+            UPDATE 
+                t_mgr_user
+            SET
+                is_deleted = TRUE
+            WHERE id = #{id}
+        ]]>
+    </delete>
+    
+</mapper>

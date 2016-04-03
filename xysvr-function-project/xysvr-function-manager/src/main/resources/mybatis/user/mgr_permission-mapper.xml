@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.user.dao.IMgrPermissionMybatisDao">
+
+    <resultMap id="mgrPermissionResultMap" type="cn.xyspace.xysvr.function.manager.user.entity.MgrPermission">
+        <id column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="type" property="type" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+        <result column="url" property="url"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_ids" property="parentIds"/>
+        <result column="permission_str" property="permissionStr"/>
+        <result column="is_available" property="isAvailable"/>
+        <result column="descriptions" property="descriptions"/>
+    </resultMap>
+    
+    <!-- 根据id查询权限 -->
+    <select id="selectById" parameterType="java.lang.String" resultMap="mgrPermissionResultMap">
+        SELECT
+            id,
+            name,
+            type,
+            url,
+            parent_id,
+            parent_ids,
+            permission_str,
+            is_available,
+            descriptions
+        FROM
+            t_mgr_permission
+        WHERE
+            id = #{id} AND is_available = TRUE   
+    </select>
+    
+    <!-- 查询权限列表 -->
+    <select id="selectsAll" resultMap="mgrPermissionResultMap">
+        SELECT
+            id,
+            name,
+            type,
+            url,
+            parent_id,
+            parent_ids,
+            permission_str,
+            is_available,
+            descriptions
+        FROM
+            t_mgr_permission
+        WHERE
+            is_available = TRUE
+    </select>
+    
+    <!-- 新增权限 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrPermission">
+        <![CDATA[
+            INSERT INTO t_mgr_permission
+            (
+                id,
+                name,
+                type,
+                url,
+                parent_id,
+                parent_ids,
+                permission_str,
+                is_available,
+                descriptions
+            )
+            VALUES
+            (
+                #{id},
+                #{name},
+                #{type, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+                #{url},
+                #{parentId},
+                #{parentIds},
+                #{permissionStr},
+                #{isAvailable},
+                #{descriptions}
+            )
+        ]]>
+    </insert>
+    
+    <!-- 根据主键(ID)删除权限。 -->
+    <delete id="updateToDelete" parameterType="java.lang.String">
+        <![CDATA[
+            UPDATE 
+                t_mgr_permission
+            SET
+                is_available = FALSE
+            WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <!-- 修改权限。 -->
+    <update id="update" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrPermission">
+        <![CDATA[
+            UPDATE 
+                t_mgr_permission
+            SET
+                id = #{id},
+                name = #{name},
+                type = #{type, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+                url = #{url},
+                parent_id = #{parentId},
+                parent_ids = #{parentIds},
+                permission_str = #{permissionStr},
+                is_available = #{isAvailable},
+                descriptions = #{descriptions}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+</mapper>

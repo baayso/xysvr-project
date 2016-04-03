@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE shardingConfig
+    PUBLIC "-//shardbatis.googlecode.com//DTD Shardbatis 2.0//EN"
+    "http://shardbatis.googlecode.com/dtd/shardbatis-config.dtd">
+
+<shardingConfig>
+
+    <!-- ignoreList配置的mapperId会被分表插件忽略解析，不会对sql进行修改
+        <ignoreList>
+        <value>com.google.code.shardbatis.test.mapper.AppTestMapper.insertNoShard</value>
+        </ignoreList>
+    -->
+
+    <!-- parseList可选配置，如果配置了parseList，只有在parseList范围内并且不再ignoreList内的sql才会被解析和修改 -->
+    <parseList>
+        <!-- 微博相关 -->
+        <value>cn.xyspace.xysvr.function.api.microblog.dao.IMicroblogMybatisDao.insert</value>
+        <!-- <value>cn.xyspace.xysvr.function.api.microblog.dao.IMicroblogAttachmentMybatisDao.insertList</value> -->
+        <value>cn.xyspace.xysvr.function.api.microblog.dao.IMicroblogCommentMybatisDao.insert</value>
+        <value>cn.xyspace.xysvr.function.api.microblog.dao.IMicroblogLikeMybatisDao.insert</value>
+        <value>cn.xyspace.xysvr.function.api.microblog.dao.IMicroblogReportMybatisDao.insert</value>
+        <!-- 活动相关 -->
+        <value>cn.xyspace.xysvr.function.api.activity.dao.IActivityMybatisDao.insert</value>
+        <value>cn.xyspace.xysvr.function.api.activity.dao.IActivityMemberMybatisDao.insert</value>
+        <!-- 广告相关 -->
+        <value>cn.xyspace.xysvr.function.api.ad.dao.IAdCommentMybatisDao.insert</value>
+        <value>cn.xyspace.xysvr.function.api.ad.dao.IAdLikeMybatisDao.insert</value>
+        <!-- 反馈相关 -->
+        <value>cn.xyspace.xysvr.function.api.feedback.dao.IFeedbackMybatisDao.insert</value>
+        <!-- 提现相关 -->
+        <value>cn.xyspace.xysvr.function.api.cashout.dao.ICashoutApplyMybatisDao.insert</value>
+        <!-- 抽奖相关 -->
+        <value>cn.xyspace.xysvr.function.api.lottery.dao.ILotteryRecordMybatisDao.insert</value>
+        <!-- 支付宝相关 -->
+        <value>cn.xyspace.xysvr.function.api.alipay.dao.IAlipayMybatisDao.insert</value>
+        <!-- 榜单相关 -->
+        <value>cn.xyspace.xysvr.function.api.ranking.dao.IRankingCommentMybatisDao.insert</value>
+        <value>cn.xyspace.xysvr.function.api.ranking.dao.IRankingLikeMybatisDao.insert</value>
+        <!-- 积分变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserBonusPointChangeRecordMybatisDao.insert</value>
+        <!-- 金币变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserMoneyChangeRecordMybatisDao.insert</value>
+        <!-- 钱财变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserRmoneyChangeRecordMybatisDao.insert</value>
+        <!-- 功德变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserMeritChangeRecordMybatisDao.insert</value>
+        <!-- 功德相关 -->
+        <value>cn.xyspace.xysvr.function.api.merit.dao.IMeritCommentMybatisDao.insert</value>
+        <value>cn.xyspace.xysvr.function.api.merit.dao.IMeritVoteMybatisDao.insert</value>
+
+
+    </parseList>
+
+    <!-- 微博相关分表策略 -->
+    <strategy tableName="t_microblog"
+        strategyClass="cn.xyspace.xysvr.function.api.microblog.dao.shardbatis.MicroblogDateTimeShardStrategyImpl" />
+    <!-- <strategy tableName="t_microblog_attachment"
+        strategyClass="cn.xyspace.xysvr.function.api.microblog.dao.shardbatis.MicroblogAttachmentDateTimeShardStrategyImpl"
+        /> -->
+    <strategy tableName="t_microblog_comment"
+        strategyClass="cn.xyspace.xysvr.function.api.microblog.dao.shardbatis.MicroblogCommentDateTimeShardStrategyImpl" />
+    <strategy tableName="t_microblog_like"
+        strategyClass="cn.xyspace.xysvr.function.api.microblog.dao.shardbatis.MicroblogLikeDateTimeShardStrategyImpl" />
+    <strategy tableName="t_microblog_report"
+        strategyClass="cn.xyspace.xysvr.function.api.microblog.dao.shardbatis.MicroblogReportDateTimeShardStrategyImpl" />
+
+    <!-- 活动相关分表策略 -->
+    <strategy tableName="t_activity"
+        strategyClass="cn.xyspace.xysvr.function.api.activity.dao.shardbatis.ActivityDateTimeShardStrategyImpl" />
+    <strategy tableName="t_activity_member"
+        strategyClass="cn.xyspace.xysvr.function.api.activity.dao.shardbatis.ActivityMemberDateTimeShardStrategyImpl" />
+
+    <!-- 广告相关分表策略 -->
+    <strategy tableName="t_ad_comment" strategyClass="cn.xyspace.xysvr.function.api.ad.dao.shardbatis.AdCommentDateTimeShardStrategyImpl" />
+    <strategy tableName="t_ad_like" strategyClass="cn.xyspace.xysvr.function.api.ad.dao.shardbatis.AdLikeDateTimeShardStrategyImpl" />
+
+    <!-- 反馈相关分表策略 -->
+    <strategy tableName="t_feedback"
+        strategyClass="cn.xyspace.xysvr.function.api.feedback.dao.shardbatis.FeedbackDateTimeShardStrategyImpl" />
+
+    <!-- 提现相关分表策略 -->
+    <strategy tableName="t_cashout_apply"
+        strategyClass="cn.xyspace.xysvr.function.api.cashout.dao.shardbatis.CashoutApplyDateTimeShardStrategyImpl" />
+
+    <!-- 抽奖相关分表策略 -->
+    <strategy tableName="t_lottery_draw_record"
+        strategyClass="cn.xyspace.xysvr.function.api.lottery.dao.shardbatis.LotteryDrawRecordDateTimeShardStrategyImpl" />
+
+    <!-- 支付宝相关 -->
+    <strategy tableName="t_alipay_recharge_record"
+        strategyClass="cn.xyspace.xysvr.function.api.alipay.dao.shardbatis.AlipayRechargeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 榜单相关分表策略 -->
+    <strategy tableName="t_ranking_comment"
+        strategyClass="cn.xyspace.xysvr.function.api.ranking.dao.shardbatis.RankingCommentDateTimeShardStrategyImpl" />
+    <strategy tableName="t_ranking_like"
+        strategyClass="cn.xyspace.xysvr.function.api.ranking.dao.shardbatis.RankingLikeDateTimeShardStrategyImpl" />
+
+    <!-- 积分变动记录表策略 -->
+    <strategy tableName="t_user_bonus_point_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserBonusPointChangeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 金币变动记录表策略 -->
+    <strategy tableName="t_user_money_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserMoneyChangeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 钱财变动记录表策略 -->
+    <strategy tableName="t_user_rmoney_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserRmoneyChangeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 功德变动记录表策略 -->
+    <strategy tableName="t_user_merit_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserMeritChangeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 功德相关分表策略 -->
+    <strategy tableName="t_merit_comment"
+        strategyClass="cn.xyspace.xysvr.function.api.merit.dao.shardbatis.MeritCommentDateTimeShardStrategyImpl" />
+    <strategy tableName="t_merit_vote" strategyClass="cn.xyspace.xysvr.function.api.merit.dao.shardbatis.MeritVoteTimeShardStrategyImpl" />
+
+</shardingConfig>

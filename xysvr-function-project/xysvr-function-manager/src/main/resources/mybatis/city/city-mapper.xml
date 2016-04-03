@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.city.dao.ICityMybatisDao">
+
+    <resultMap id="cityResultMap" type="cn.xyspace.xysvr.function.manager.city.entity.City">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="detail" property="detail" />
+        <result column="baidu_code" property="baiduCode" />
+        <result column="area_code" property="areaCode" />
+        <result column="zip_code" property="zipCode" />
+        <result column="admin_code" property="adminCode" />
+        <result column="parent_id" property="parentId" />
+    </resultMap>
+
+    <sql id="city_column">
+        <![CDATA[
+            id,
+            name,
+            detail,
+            baidu_code,
+            area_code,
+            zip_code,
+            admin_code,
+            parent_id
+         ]]>
+    </sql>
+
+    <!-- 查询所有城市 -->
+    <select id="selectsAll" resultMap="cityResultMap">
+        SELECT
+        <include refid="city_column" />
+        FROM
+        t_city
+    </select>
+    
+    <!-- 查询除全国以外的所有城市 -->
+    <select id="selectsAllWithoutChina" resultMap="cityResultMap">
+        SELECT
+        <include refid="city_column" />
+        FROM
+            t_city
+        WHERE parent_id IS NOT NULL
+    </select>
+
+</mapper>

@@ -1,0 +1,140 @@
+<!-- 引入header模板 start -->
+<%include("../common/header.html",{'stageArr':["当前登录用户","信息查看修改"]}){}%>
+<!-- 引入header模板 start -->
+
+<% if(user != null) { %>
+<form class="am-form" action="modify" method="post">
+    <fieldset>
+    <input type="hidden" name="userId" value="${user.id}" >
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right"> 用户名：</div>
+            <div class="am-u-sm-6 am-u-end">
+               <input type="text"  value="${user.username}" placeholder="用户名不可修改" readonly>
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">昵　称：</div>
+            <div class="am-u-sm-6 am-u-end">
+                <input type="text" name="nickname" value="${user.nickname}" placeholder="如需修改请添加">
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">真实姓名：</div>
+            <div class="am-u-sm-6 am-u-end">
+               <input type="text" name="name" value="${user.name}" placeholder="如需修改请添加">
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right"> 邮　箱：</div>
+            <div class="am-u-sm-6 am-u-end">
+                <input type="email" name="email" value="${user.email}" placeholder="如需修改请添加">
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">出生日期：</div>
+            <div class="am-u-sm-2 am-u-end">
+                <script type="text/javascript">
+                    $(function() {
+                        $(".ui_datepicker").datepicker({
+                        })
+                    });
+                </script>
+                <input type="text" name="birthday"  value="${user.birthday}" placeholder="如需修改请添加"  class="ui_datepicker am-form-field" style="width:250px;"/>
+            </div>
+            
+            <div class="am-u-sm-2 am-text-right">用户电话：</div>
+            <div class="am-u-sm-2 am-u-end">
+               <input type="text" name="telephone" value="${user.telephone}" placeholder="如需修改请添加">
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">用户地址：</div>
+            <div class="am-u-sm-6 am-u-end">
+               <input type="text" name="address" value="${user.address}" placeholder="如需修改请添加">
+            </div>
+        </div>
+        
+         <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">性　别：</div>
+            <div class="am-u-sm-2 am-u-end">
+               <label class="am-radio-inline"><input type="radio"  value="F" name="gender" <% if(user.gender == 'F'){ %>checked<% } %>> 男</label>
+               <label class="am-radio-inline"><input type="radio"  value="M" name="gender" <% if(user.gender == 'M'){ %>checked<% } %>>女</label>
+               <label class="am-radio-inline"><input type="radio" value="S" name="gender" <% if(user.gender == 'S'){ %>checked<% } %>> 保密</label>
+            </div>
+            
+            <div class="am-u-sm-2 am-text-right">是否已锁定：</div>
+            <div class="am-u-sm-2 am-u-end">
+                <% if(user.isLocked == true){ %> 是 <% } else { %> 否  <% } %>
+            </div>
+        </div>
+        
+         <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">是否已禁用：</div>
+            <div class="am-u-sm-2 am-u-end">
+                <% if(user.isDisabled == true){ %> 是 <% } else { %> 否  <% } %>
+            </div>
+            
+            <div class="am-u-sm-2 am-text-right">是否已审核：</div>
+            <div class="am-u-sm-2 am-u-end">
+                <% if(user.isAudited == true){ %> 是 <% } else { %> 否  <% } %>
+            </div>
+        </div>
+        
+         <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">是否已激活：</div>
+            <div class="am-u-sm-2 am-u-end">
+                <% if(user.isActivated == true){ %> 是 <% } else { %> 否  <% } %>
+            </div>
+            <div class="am-u-sm-2 am-text-right">是否管理员：</div>
+            <div class="am-u-sm-2 am-u-end">
+                <% if(user.isAdmin == true){ %> 是 <% } else { %> 否  <% } %>
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">创建时间：</div>
+            <div class="am-u-sm-2 am-u-end">
+             <button type="button" class="am-btn am-btn-default">
+                <script type="text/javascript">
+                    var time = getLocalTime(${user.createTime});
+                    document.write(time);
+                </script>
+             </button>
+            </div>
+            
+            <div class="am-u-sm-2 am-text-right">最后登录时间：</div>
+            <div class="am-u-sm-2 am-u-end">
+              <button type="button" class="am-btn am-btn-default">
+                <script type="text/javascript">
+                    var time = getLocalTime(${user.lastLoginTime});
+                    document.write(time);
+                </script>
+              </button>
+            </div>
+        </div>
+        
+        <div class="am-g am-margin-top-sm">
+            <div class="am-u-sm-2 am-text-right">用户介绍：</div>
+            <div class="am-u-sm-6 am-u-end">
+               <textarea name="intro">${user.intro}</textarea>
+            </div>
+        </div>
+
+        <div class="am-s am-margin-top-sm submit-div">
+             <button type="submit" class="am-btn am-btn-primary ">　　修　改　　</button>
+             <button type="reset" class="am-btn am-btn-primary submit-r">　　重　置　　</button>
+        </div>
+    </fieldset>
+</form>
+<% } else { %>
+暂无此用户信息。
+<% } %>
+
+<!-- 引入bottom start -->
+<%include("../common/bottom.html"){}%>
+<!-- 引入bottom end -->

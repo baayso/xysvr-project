@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd"
+    default-lazy-init="false">
+
+
+    <!-- 配置Mybatis -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 注入数据源 -->
+        <property name="dataSource" ref="dynamicDataSource" />
+        <!-- Mybatis配置文件位置 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <!-- 自动扫描entity包, 省掉在mybatis-config.xml里手工配置 -->
+        <!-- <property name="typeAliasesPackage" value="cn.xyspace.xysvr" /> -->
+        <!-- Mybatis映射文件位置 -->
+        <property name="mapperLocations" value="classpath*:mybatis/**/*-mapper.xml" />
+    </bean>
+
+    <!-- 扫描basePackage下所有以@MyBatisRepository注解标识的接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.xyspace.xysvr" />
+        <property name="annotationClass" value="cn.xyspace.xysvr.common.core.dao.annotation.MyBatisRepository" />
+    </bean>
+
+    <!-- 配置SqlSession模板
+        <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+        </bean>
+    -->
+
+    <!--
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.xyspace.xysvr.common.core.mybatis.mapper" />
+        </bean>
+
+        <bean class="com.github.abel533.mapperhelper.MapperHelper" depends-on="sqlSession" init-method="initMapper"
+        scope="singleton" lazy-init="false">
+        <property name="mappers">
+        <array>
+        <value>cn.xyspace.xysvr.common.core.mybatis.mapper.Mapper</value>
+        </array>
+        </property>
+        <property name="sqlSessions" ref="sqlSessionTemplate" />
+        </bean>
+    -->
+
+</beans>

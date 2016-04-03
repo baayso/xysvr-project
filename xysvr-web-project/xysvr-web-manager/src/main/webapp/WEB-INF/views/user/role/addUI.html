@@ -1,0 +1,143 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["角色管理","添加角色"]}){}%>
+<!-- 引入header模板 start -->
+
+<script type="text/javascript">
+    function cancel() {
+        if (window.confirm("返回角色列表？")) {
+            location.href = "${ctxPath}/user/role/list";
+        }
+    }
+    var setting = {    
+            check:{
+                enable:true
+            },
+            data:    {
+                simpleData:{
+                    enable:true
+                }
+            },
+            callback:{
+                onCheck:onCheck
+            }
+        };
+        
+    	var zNodes =[
+             <% for(permissions in allPermissions){ %>
+                 { id:${permissions.id}, pId:${permissions.parentId}, name:"${permissions.name}",  open:true, checked: ${permissions.check}},
+             <% }%>
+    	];      
+    	$(document).ready(function(){
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        });
+            
+    	function onCheck(e,treeId,treeNode){
+            var treeObj=$.fn.zTree.getZTreeObj("treeDemo"),
+            nodes=treeObj.getCheckedNodes(true),
+            v="";
+            for(var i=0;i<nodes.length;i++){
+                var halfCheck = nodes[i].getCheckStatus();
+                if (!halfCheck.half){
+                v+=nodes[i].id + ",";
+                }
+            	document.getElementById('permissionIds').value=v;
+            }
+        }
+    	
+    	
+    	jQuery.validator.addMethod("isName", function(value, element) {
+            var ereg = /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5]{0,60}$/;
+            if (!value.match(ereg)) {
+                return false;
+            }
+            return true;
+        }, "必须为1-60位的字符且以汉字或字母开头（只可包含汉字、字母、数字）");
+    	
+    	$(function(){
+        	$("#checkForm").validate({
+        		errorPlacement: function(error, element){
+        			var error_td = element.next('em');
+        			error_td.find('.field_notice').hide();
+        			error_td.append(error);
+        		},
+        		success: function(label){
+        			label.addClass('validate_right').text('OK!');
+        		},
+        		onkeyup: false,
+        		rules: {
+        		    name: {required:true, isName:true},
+        		    descriptions: {required:true, maxlength:250},
+        		    permissionIds: {required:true}
+        		},
+        		messages: {
+        		    name: {required:"不能为空"},
+        		    descriptions: {required:"不能为空",maxlength:"不能超过250个字符（包含标点符号和空格）"},
+        		    permissionIds: {required:"必须选择权限"}
+        		},
+        	});
+        });
+    	
+    	
+</script>
+<form id="checkForm" class="am-form" action="${ctxPath}/user/role/add" method="post">
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            角色名称<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="name" name="name" >
+            <em><label class="field_notice"></label></em>
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">是否可用<em class="must-em">*</em></div>
+        <div class="am-form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="am-radio-inline">
+                <input type="radio" name="isAvailable" value="true" checked>
+                                        可用
+            </label>
+            <label class="am-radio-inline">
+                <input type="radio" name="isAvailable" value="false">
+                                        不可用
+            </label>
+        </div>
+     </div>
+     
+    <div class="am-g am-margin-top-sm">   
+        <div class="am-u-sm-2 am-text-right">
+            角色描述<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <textarea rows="5" id="descriptions" name="descriptions"></textarea>
+            <em><label class="field_notice"></label></em>
+        </div>
+    </div>
+    <br />
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            授予的权限列表<em class="must-em">*</em>
+        </div>
+        <div>
+            <ul id="treeDemo" class="ztree" style="margin-left:220px"></ul>
+        </div>
+        <input type="hidden" name="permissionIds" id="permissionIds">
+        <em><label class="field_notice"></label></em>
+    </div>
+    
+    <div class="am-g am-margin-top-sm submit-div">
+        <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+            <i class="am-icon-pencil"></i>&nbsp;&nbsp;&nbsp;添&nbsp;&nbsp;加&nbsp;&nbsp;&nbsp;
+        </button>
+        <button type="reset" class="am-btn am-btn-primary am-btn-sm submit-r" onclick="cancel()">
+            <i class="am-icon-undo"></i>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;
+        </button>
+    </div>
+</form>
+
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

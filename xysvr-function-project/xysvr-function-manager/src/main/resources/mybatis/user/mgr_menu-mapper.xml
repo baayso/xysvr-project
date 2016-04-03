@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.user.dao.IMgrMenuMybatisDao">
+
+    <resultMap id="menuWithChildrenResultMap" type="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+        <result column="sortnum" property="sortnum" />
+        <result column="span_class" property="spanClass" />
+        <result column="needperm" property="needperm" />
+        <result column="authorized" property="authorized" />
+        <result column="isdiv" property="isdiv" />
+        <result column="parent_id" property="parentId" />
+        <collection property="menus" column="id" javaType="java.util.ArrayList" select="selectsChildren" 
+        ofType="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu"/>  
+    </resultMap>
+    
+    <!-- 根据id查询菜单 -->
+    <select id="selectById" parameterType="java.lang.String" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu">
+        SELECT
+            id,
+            name,
+            url,
+            sortnum,
+            span_class AS spanClass,
+            needperm,
+            authorized,
+            isdiv,
+            parent_id AS parentId
+        FROM
+            t_mgr_menu
+        WHERE
+            id = #{id}
+    </select>
+    
+    <!-- 查询菜单列表 -->
+    <select id="selectsAll" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu">
+        SELECT
+            id,
+            name,
+            url,
+            sortnum,
+            span_class AS spanClass,
+            needperm,
+            authorized,
+            isdiv,
+            parent_id AS parentId
+        FROM
+            t_mgr_menu
+    </select>
+    
+    <!-- 新增菜单 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu">
+        <![CDATA[
+            INSERT INTO t_mgr_menu
+            (
+                id,
+                name,
+                url,
+                sortnum,
+                span_class AS spanClass,
+                needperm,
+                authorized,
+                isdiv,
+                parent_id AS parentId
+            )
+            VALUES
+            (
+                #{id},
+                #{name},
+                #{url},
+                #{sortnum},
+                #{spanClass},
+                #{needperm},
+                #{authorized},
+                #{isdiv},
+                #{parentId}
+            )
+        ]]>
+    </insert>
+    
+    <!-- 根据主键(ID)删除菜单。 -->
+    <delete id="delete" parameterType="java.lang.String">
+        <![CDATA[
+            DELETE FROM
+                t_mgr_menu
+            WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <!-- 修改菜单。 -->
+    <update id="update" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu">
+        <![CDATA[
+            UPDATE
+                t_mgr_menu
+            SET
+                name = #{name},
+                url = #{url},
+                sortnum = #{sortnum},
+                span_class = #{spanClass},
+                needperm = #{needperm},
+                authorized = #{authorized},
+                isdiv = #{isdiv},
+                parent_id = #{parentId}
+            WHERE id = #{id}
+        ]]>
+    </update>
+    
+    <!-- 查询子菜单列表 -->
+    <select id="selectsChildren" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrMenu">
+        SELECT
+            id,
+            name,
+            url,
+            sortnum,
+            span_class AS spanClass,
+            needperm,
+            authorized,
+            isdiv,
+            parent_id AS parentId
+        FROM
+            t_mgr_menu
+        WHERE
+            parent_id = #{id}
+        ORDER BY sortnum ASC
+    </select>
+    
+    <!-- 查询父菜单列表 -->
+    <select id="selectsWithChildren" resultMap="menuWithChildrenResultMap">
+        SELECT
+            id,
+            name,
+            url,
+            sortnum,
+            span_class,
+            needperm,
+            authorized,
+            isdiv,
+            parent_id
+        FROM
+            t_mgr_menu
+        WHERE 
+            parent_id IS NULL
+        ORDER BY sortnum ASC
+    </select>
+    
+</mapper>

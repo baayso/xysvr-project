@@ -1,0 +1,96 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["权限管理","添加权限"]}){}%>
+<!-- 引入header模板 start -->
+
+<script type="text/javascript">
+    function cancel() {
+        if (window.confirm("返回权限列表？")) {
+            location.href = "${ctxPath}/user/permission/list";
+        }
+    }
+</script>
+<form class="am-form" action="${ctxPath}/user/permission/add" method="post">
+
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            权限名称<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="name" name="name">
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            权限类型<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="type" name="type">
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">权限对应的url</div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="url" name="url">
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            父权限ID<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="parentId" name="parentId">
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            父权限ID列表<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="parentIds" name="parentIds">
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            权限字符串<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="permissionStr" name="permissionStr">
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            是否可用<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="isAvailable" name="isAvailable">
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">权限描述</div>
+        <div class="am-u-sm-4 am-u-end">
+            <textarea rows="5" id="descriptions" name="descriptions"></textarea>
+        </div>
+    </div>
+    <br />
+
+    <div class="am-g am-margin-top-sm submit-div">
+        <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+            <i class="am-icon-pencil"></i>&nbsp;&nbsp;&nbsp;添&nbsp;&nbsp;加&nbsp;&nbsp;&nbsp;
+        </button>
+        <button type="reset" class="am-btn am-btn-primary am-btn-sm submit-r" onclick="cancel()">
+            <i class="am-icon-undo"></i>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;
+        </button>
+    </div>
+</form>
+
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

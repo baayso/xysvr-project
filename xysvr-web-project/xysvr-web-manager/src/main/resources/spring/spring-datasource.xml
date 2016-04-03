@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd"
+    default-lazy-init="false">
+
+
+    <!-- 动态数据源配置 -->
+    <bean id="dynamicDataSource" class="cn.xyspace.xysvr.common.core.dao.datasource.DynamicDataSource">
+        <!-- 从数据库，用于读操作，目前负载均衡机制为随机取一个 -->
+        <property name="slaveDataSources">
+            <map key-type="java.lang.String">
+                <entry key="readDataSourceOne" value-ref="druidDataSource2" />
+                <!-- <entry key="readDataSourceTwo" value-ref="druidDataSourceTwo" /> -->
+            </map>
+        </property>
+        <!-- 主数据库 -->
+        <property name="masterDataSource" ref="druidDataSource1" />
+        <!-- 备数据库 -->
+        <!-- <property name="standbyDataSource" ref="dataSource2" /> -->
+    </bean>
+
+    <!-- 配置数据库连接池-1 -->
+    <bean id="druidDataSource1" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 基本信息 -->
+        <property name="driverClassName" value="${jdbc.driverClassName.1}" />
+        <property name="url" value="${jdbc.url.1}" />
+        <property name="username" value="${jdbc.username.1}" />
+        <property name="password" value="${jdbc.password.1}" />
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}" />
+        <property name="minIdle" value="${druid.minIdle}" />
+        <property name="maxActive" value="${druid.maxActive}" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${druid.validationQuery}" />
+        <property name="testWhileIdle" value="${druid.testWhileIdle}" />
+        <property name="testOnBorrow" value="${druid.testOnBorrow}" />
+        <property name="testOnReturn" value="${druid.testOnReturn}" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <!-- 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。 -->
+        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${druid.filters}" />
+        <!-- 是否打开连接泄露自动检测 -->
+        <property name="removeAbandoned" value="${druid.removeAbandoned}" />
+        <!-- 连接长时间没有使用，被认为发生泄露时长 -->
+        <property name="removeAbandonedTimeoutMillis" value="${druid.removeAbandonedTimeoutMillis}" />
+        <!-- 发生泄露时是否需要输出log，建议在开启连接泄露检测时开启，方便排错 -->
+        <property name="logAbandoned" value="${druid.logAbandoned}" />
+    </bean>
+
+    <!-- 配置数据库连接池-2 -->
+    <bean id="druidDataSource2" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 基本信息 -->
+        <property name="driverClassName" value="${jdbc.driverClassName.2}" />
+        <property name="url" value="${jdbc.url.2}" />
+        <property name="username" value="${jdbc.username.2}" />
+        <property name="password" value="${jdbc.password.2}" />
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}" />
+        <property name="minIdle" value="${druid.minIdle}" />
+        <property name="maxActive" value="${druid.maxActive}" />
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}" />
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${druid.validationQuery}" />
+        <property name="testWhileIdle" value="${druid.testWhileIdle}" />
+        <property name="testOnBorrow" value="${druid.testOnBorrow}" />
+        <property name="testOnReturn" value="${druid.testOnReturn}" />
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <!-- 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。 -->
+        <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${druid.filters}" />
+        <!-- 是否打开连接泄露自动检测 -->
+        <property name="removeAbandoned" value="${druid.removeAbandoned}" />
+        <!-- 连接长时间没有使用，被认为发生泄露时长 -->
+        <property name="removeAbandonedTimeoutMillis" value="${druid.removeAbandonedTimeoutMillis}" />
+        <!-- 发生泄露时是否需要输出log，建议在开启连接泄露检测时开启，方便排错 -->
+        <property name="logAbandoned" value="${druid.logAbandoned}" />
+    </bean>
+
+</beans>

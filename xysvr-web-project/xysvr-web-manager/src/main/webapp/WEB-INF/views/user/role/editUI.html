@@ -1,0 +1,96 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["角色管理","修改角色"]}){}%>
+<!-- 引入header模板 start -->
+
+<script type="text/javascript">
+    function cancel() {
+        if (window.confirm("返回角色列表？")) {
+            location.href = "${ctxPath}/user/role/list";
+        }
+    }
+    
+    jQuery.validator.addMethod("isName", function(value, element) {
+        var ereg = /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5]{0,60}$/;
+        if (!value.match(ereg)) {
+            return false;
+        }
+        return true;
+    }, "必须为1-60位的字符且以汉字或字母开头（只可包含汉字、字母、数字）");
+	
+	$(function(){
+    	$("#checkForm").validate({
+    		errorPlacement: function(error, element){
+    			var error_td = element.next('em');
+    			error_td.find('.field_notice').hide();
+    			error_td.append(error);
+    		},
+    		success: function(label){
+    			label.addClass('validate_right').text('OK!');
+    		},
+    		onkeyup: false,
+    		rules: {
+    		    name: {required:true, isName:true},
+    		    descriptions: {required:true, maxlength:250}
+    		},
+    		messages: {
+    		    name: {required:"不能为空"},
+    		    descriptions: {required:"不能为空",maxlength:"不能超过250个字符（包含标点符号和空格）"}
+    		},
+    	});
+    });
+</script>
+<form id="checkForm" class="am-form" action="${ctxPath}/user/role/edit/${role.id}" method="post">
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            角色名称<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="name" name="name" value="${role.name}">
+            <em><label class="field_notice"></label></em>
+        </div>
+    </div>
+    
+    <input type="hidden" id="permissionIds" name="permissionIds" value="${role.permissionIds}">
+
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            是否可用<em class="must-em">*</em>
+        </div>
+        <div class="am-form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="am-radio-inline">
+                <input type="radio" name="isAvailable" value="true" <% if(role.isAvailable==true){ %>checked<% } %>>
+                                            可用
+            </label>
+            <label class="am-radio-inline">
+                <input type="radio" name="isAvailable" value="false" <% if(role.isAvailable==false){ %>checked<% } %>>
+                                        不可用
+            </label>
+        </div>
+     </div>
+     
+    <div class="am-g am-margin-top-sm">   
+        <div class="am-u-sm-2 am-text-right">
+            角色描述<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <textarea rows="5" id="descriptions" name="descriptions">${role.descriptions}</textarea>
+            <em><label class="field_notice"></label></em>
+        </div>
+    </div>
+    <br />
+    
+    <div class="am-g am-margin-top-sm submit-div">
+        <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+            <i class="am-icon-eraser"></i>&nbsp;&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;&nbsp;
+        </button>
+        <button type="reset" class="am-btn am-btn-primary am-btn-sm submit-r" onclick="cancel()">
+            <i class="am-icon-undo"></i>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;
+        </button>
+    </div>
+</form>
+
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

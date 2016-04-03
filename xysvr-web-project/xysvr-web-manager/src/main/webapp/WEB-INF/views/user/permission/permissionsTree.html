@@ -1,0 +1,66 @@
+﻿<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["后台角色管理","角色权限设置"]}){}%>
+<!-- 引入header模板 start -->
+
+<script type="text/javascript">
+    function cancel() {
+        if (window.confirm("返回角色列表？")) {
+            location.href = "${ctxPath}/user/role/list";
+        }
+    }
+    
+    var setting = {    
+        check:{
+            enable:true
+        },
+        data:    {
+            simpleData:{
+                enable:true
+            }
+        },
+        callback:{
+            onCheck:onCheck
+        }
+    };
+    
+	var zNodes =[
+         <% for(permissions in allPermissions){ %>
+             { id:${permissions.id}, pId:${permissions.parentId}, name:"${permissions.name}",  open:true, checked: ${permissions.check}},
+         <% }%>
+	];      
+	$(document).ready(function(){
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    });
+        
+	function onCheck(e,treeId,treeNode){
+        var treeObj=$.fn.zTree.getZTreeObj("treeDemo"),
+        nodes=treeObj.getCheckedNodes(true),
+        v="";
+        for(var i=0;i<nodes.length;i++){
+            var halfCheck = nodes[i].getCheckStatus();
+            if (!halfCheck.half){
+            v+=nodes[i].id + ",";
+            }
+        	document.getElementById('test').value=v;
+        }
+    }
+    
+    
+</script>
+<div >
+    <ul id="treeDemo" class="ztree"></ul>
+</div>
+
+<br/>
+<form action="${ctxPath}/user/role/setPermissions/${id}" method="post">
+	<input type="submit"  class="am-btn am-btn-primary am-btn-xs" value="&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;"/>
+	<input type="hidden" name="permissionIds" id="test">
+    &nbsp;&nbsp;&nbsp;
+    <button type="reset" class="am-btn am-btn-primary am-btn-xs" onclick="cancel()">
+       <i class="am-icon-undo"></i>&nbsp;&nbsp;&nbsp;返&nbsp;&nbsp;回&nbsp;&nbsp;&nbsp;
+   </button>
+</form>
+    
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

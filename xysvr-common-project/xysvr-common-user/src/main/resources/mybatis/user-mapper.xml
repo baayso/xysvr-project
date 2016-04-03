@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.common.user.dao.IUserMybatisDao">
+
+    <resultMap id="userAssetResultMap" type="cn.xyspace.xysvr.common.user.entity.UserAsset">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="bonus_point" property="bonusPoint" jdbcType="INTEGER" />
+        <result column="money" property="money" jdbcType="INTEGER" />
+        <result column="lock_money" property="lockMoney" jdbcType="INTEGER" />
+        <result column="earn_money" property="earnMoney" jdbcType="INTEGER" />
+        <result column="rmoney" property="rmoney" />
+        <result column="lock_rmoney" property="lockRmoney" />
+        <result column="lucky" property="lucky" jdbcType="INTEGER" />
+        <result column="hitface" property="hitface" jdbcType="INTEGER" />
+        <result column="hittedface" property="hittedface" jdbcType="INTEGER" />
+        <result column="merit" property="merit" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+    </resultMap>
+
+    <resultMap id="userWithAssetResultMap" type="cn.xyspace.xysvr.common.user.entity.User">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="salt" property="salt" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+        <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+        <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="inviter" property="inviter" jdbcType="VARCHAR" />
+        <result column="identifier" property="identifier" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="is_locked" property="isLocked" jdbcType="BOOLEAN" />
+        <result column="is_disabled" property="isDisabled" jdbcType="BOOLEAN" />
+        <result column="is_audited" property="isAudited" jdbcType="BOOLEAN" />
+        <result column="is_activated" property="isActivated" jdbcType="BOOLEAN" />
+        <result column="reg_ip" property="regIp" jdbcType="VARCHAR" />
+        <result column="reg_longitude" property="regLongitude" jdbcType="DOUBLE" />
+        <result column="reg_latitude" property="regLatitude" jdbcType="DOUBLE" />
+        <result column="reg_city" property="regCity" jdbcType="VARCHAR" />
+        <result column="reg_position" property="regPosition" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="BIGINT" />
+        <result column="last_login_time" property="lastLoginTime" jdbcType="BIGINT" />
+        <result column="last_microblog_id" property="lastMicroblogId" jdbcType="VARCHAR" />
+        <result column="last_microblog_time" property="lastMicroblogTime" jdbcType="BIGINT" />
+        <result column="last_activity_id" property="lastActivityId" jdbcType="VARCHAR" />
+        <result column="last_activity_time" property="lastActivityTime" jdbcType="BIGINT" />
+        <result column="intro" property="intro" jdbcType="VARCHAR" />
+        <result column="icon_path" property="iconPath" jdbcType="VARCHAR" />
+        <result column="size" property="size" jdbcType="BIGINT" />
+        <result column="mime" property="mime" jdbcType="VARCHAR" />
+        <result column="extname" property="extname" jdbcType="VARCHAR" />
+        <result column="hash" property="hash" jdbcType="VARCHAR" />
+        <result column="width" property="width" jdbcType="INTEGER" />
+        <result column="height" property="height" jdbcType="INTEGER" />
+        <result column="uptime" property="uptime" jdbcType="BIGINT" />
+        <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="BOOLEAN" />
+
+        <association column="id" property="asset" javaType="cn.xyspace.xysvr.common.user.entity.UserAsset"
+            resultMap="userAssetResultMap" />
+    </resultMap>
+
+    <resultMap id="userWithoutAssetResultMap" type="cn.xyspace.xysvr.common.user.entity.User">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="salt" property="salt" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" typeHandler="org.apache.ibatis.type.EnumOrdinalTypeHandler" />
+        <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+        <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="inviter" property="inviter" jdbcType="VARCHAR" />
+        <result column="identifier" property="identifier" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="is_locked" property="isLocked" jdbcType="BOOLEAN" />
+        <result column="is_disabled" property="isDisabled" jdbcType="BOOLEAN" />
+        <result column="is_audited" property="isAudited" jdbcType="BOOLEAN" />
+        <result column="is_activated" property="isActivated" jdbcType="BOOLEAN" />
+        <result column="reg_ip" property="regIp" jdbcType="VARCHAR" />
+        <result column="reg_longitude" property="regLongitude" jdbcType="DOUBLE" />
+        <result column="reg_latitude" property="regLatitude" jdbcType="DOUBLE" />
+        <result column="reg_city" property="regCity" jdbcType="VARCHAR" />
+        <result column="reg_position" property="regPosition" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="BIGINT" />
+        <result column="last_login_time" property="lastLoginTime" jdbcType="BIGINT" />
+        <result column="last_microblog_id" property="lastMicroblogId" jdbcType="VARCHAR" />
+        <result column="last_microblog_time" property="lastMicroblogTime" jdbcType="BIGINT" />
+        <result column="last_activity_id" property="lastActivityId" jdbcType="VARCHAR" />
+        <result column="last_activity_time" property="lastActivityTime" jdbcType="BIGINT" />
+        <result column="intro" property="intro" jdbcType="VARCHAR" />
+        <result column="icon_path" property="iconPath" jdbcType="VARCHAR" />
+        <result column="size" property="size" jdbcType="BIGINT" />
+        <result column="mime" property="mime" jdbcType="VARCHAR" />
+        <result column="extname" property="extname" jdbcType="VARCHAR" />
+        <result column="hash" property="hash" jdbcType="VARCHAR" />
+        <result column="width" property="width" jdbcType="INTEGER" />
+        <result column="height" property="height" jdbcType="INTEGER" />
+        <result column="uptime" property="uptime" jdbcType="BIGINT" />
+        <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
+        <result column="is_deleted" property="isDeleted" jdbcType="BOOLEAN" />
+    </resultMap>
+
+    <sql id="user_column">
+        <![CDATA[
+        id,
+        username,
+        nickname,
+        name,
+        password,
+        salt,
+        gender,
+        birthday,
+        telephone,
+        email,
+        inviter,
+        identifier,
+        address,
+        is_locked,
+        is_disabled,
+        is_audited,
+        is_activated,
+        reg_ip,
+        reg_longitude,
+        reg_latitude,
+        reg_city,
+        reg_position,
+        create_time,
+        last_login_time,
+        last_microblog_id,
+        last_microblog_time,
+        last_activity_id,
+        last_activity_time,
+        intro,
+        icon_path,
+        size,
+        mime,
+        extname,
+        hash,
+        width,
+        height,
+        uptime,
+        role_ids,
+        is_deleted
+        ]]>
+    </sql>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.common.user.entity.User">
+        <![CDATA[
+        INSERT INTO t_user
+        (
+            id,
+            username,
+            nickname,
+            password,
+            salt,
+            gender,
+            email,
+            inviter,
+            identifier,
+            is_audited,
+            is_activated,
+            reg_ip,
+            reg_longitude,
+            reg_latitude,
+            reg_city,
+            reg_position,
+            create_time
+        )
+        VALUES
+        (
+            #{id},
+            #{username},
+            #{nickname},
+            #{password},
+            #{salt},
+            #{gender, typeHandler=org.apache.ibatis.type.EnumOrdinalTypeHandler},
+            #{email},
+            #{inviter},
+            #{identifier},
+            #{isAudited},
+            #{isActivated},
+            #{regIp},
+            #{regLongitude},
+            #{regLatitude},
+            #{regCity},
+            #{regPosition},
+            #{createTime}
+        )
+        ]]>
+    </insert>
+
+    <!-- 根据主键更新用户密码和密码盐 -->
+    <update id="updatePassword">
+        <![CDATA[
+        UPDATE
+            t_user
+        SET
+            password = #{newPassword},
+            salt = #{salt}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新用户最后登录时间戳 -->
+    <update id="updateLastLoginTime">
+        <![CDATA[
+        UPDATE
+            t_user
+        SET
+            last_login_time = #{lastLoginTime}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新最后发起的活动ID和时间戳 -->
+    <update id="updateLastActivity">
+        <![CDATA[
+        UPDATE
+            t_user
+        SET
+            last_activity_id = #{lastActivityId},
+            last_activity_time = #{lastActivityTime}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新最后发布的微博ID和时间戳 -->
+    <update id="updateLastMicroblog">
+        <![CDATA[
+        UPDATE
+            t_user
+        SET
+            last_microblog_id = #{lastMicroblogId},
+            last_microblog_time = #{lastMicroblogTime}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 更新用户的头像信息 -->
+    <update id="updateUserIcon" parameterType="cn.xyspace.xysvr.common.user.entity.User">
+        <![CDATA[
+        UPDATE
+            t_user
+        SET
+            icon_path = #{iconPath},
+            size = #{size},
+            mime = #{mime},
+            extname = #{extname},
+            hash = #{hash},
+            width = #{width},
+            height = #{height},
+            uptime = #{uptime}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 查询用户名数目 -->
+    <select id="selectCountUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT
+            COUNT(*)
+        FROM
+            t_user
+        WHERE
+            username = #{username}
+        ]]>
+    </select>
+
+    <!-- 查询email数目 -->
+    <select id="selectCountEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT
+            COUNT(*)
+        FROM
+            t_user
+        WHERE
+            email = #{email} 
+        ]]>
+    </select>
+
+    <!-- 查询注册标识符数目 -->
+    <select id="selectCountIdentifier" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT
+            COUNT(*)
+        FROM
+            t_user
+        WHERE
+            identifier = #{identifier}
+        ]]>
+    </select>
+
+    <!-- 根据主键查询用户 -->
+    <select id="selectById" parameterType="java.lang.String" resultMap="userWithoutAssetResultMap">
+        SELECT
+        <include refid="user_column" />
+        <![CDATA[
+        FROM
+            t_user
+        WHERE
+            id = #{id}
+        ]]>
+    </select>
+
+    <!-- 根据主键查询用户（包括用户财富信息） -->
+    <select id="selectWithAssetById" parameterType="java.lang.String" resultMap="userWithAssetResultMap">
+        <![CDATA[
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.name,
+            u.password,
+            u.salt,
+            u.gender,
+            u.birthday,
+            u.telephone,
+            u.email,
+            u.identifier,
+            u.address,
+            u.is_locked,
+            u.is_disabled,
+            u.is_audited,
+            u.is_activated,
+            u.reg_ip,
+            u.reg_longitude,
+            u.reg_latitude,
+            u.reg_city,
+            u.reg_position,
+            u.create_time,
+            u.last_login_time,
+            u.last_microblog_id,
+            u.last_microblog_time,
+            u.last_activity_id,
+            u.last_activity_time,
+            u.intro,
+            u.icon_path,
+            u.size,
+            u.mime,
+            u.extname,
+            u.hash,
+            u.width,
+            u.height,
+            u.uptime,
+            u.role_ids,
+            u.is_deleted,
+            ua.bonus_point,
+            ua.money,
+            ua.lock_money,
+            ua.earn_money,
+            ua.rmoney,
+            ua.lock_rmoney,
+            ua.lucky,
+            ua.hitface,
+            ua.hittedface,
+            ua.merit,
+            ua.level
+        FROM
+            t_user u LEFT OUTER JOIN t_user_asset ua
+            ON u.id = ua.id
+        WHERE
+            u.id = #{id}
+        ]]>
+    </select>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="userWithoutAssetResultMap">
+        SELECT
+        <include refid="user_column" />
+        <![CDATA[
+        FROM
+            t_user
+        WHERE
+            username = #{username}
+        ]]>
+    </select>
+
+    <!-- 根据用户名查询用户（包括用户财富信息） -->
+    <select id="selectWithAssetByUsername" parameterType="java.lang.String" resultMap="userWithAssetResultMap">
+        <![CDATA[
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.name,
+            u.password,
+            u.salt,
+            u.gender,
+            u.birthday,
+            u.telephone,
+            u.email,
+            u.identifier,
+            u.address,
+            u.is_locked,
+            u.is_disabled,
+            u.is_audited,
+            u.is_activated,
+            u.reg_ip,
+            u.reg_longitude,
+            u.reg_latitude,
+            u.reg_city,
+            u.reg_position,
+            u.create_time,
+            u.last_login_time,
+            u.last_microblog_id,
+            u.last_microblog_time,
+            u.last_activity_id,
+            u.last_activity_time,
+            u.intro,
+            u.icon_path,
+            u.size,
+            u.mime,
+            u.extname,
+            u.hash,
+            u.width,
+            u.height,
+            u.uptime,
+            u.role_ids,
+            u.is_deleted,
+            ua.bonus_point,
+            ua.money,
+            ua.lock_money,
+            ua.earn_money,
+            ua.rmoney,
+            ua.lock_rmoney,
+            ua.lucky,
+            ua.hitface,
+            ua.hittedface,
+            ua.merit,
+            ua.level
+        FROM
+            t_user u LEFT OUTER JOIN t_user_asset ua
+            ON u.id = ua.id
+        WHERE
+            u.username = #{username}
+        ]]>
+    </select>
+
+    <!-- 用户修改个人资料 -->
+    <update id="updateUserInfo" parameterType="java.lang.String">
+        <![CDATA[
+        UPDATE
+            t_user
+        SET
+            intro = #{intro},
+            email = #{email},
+            telephone = #{telephone}
+        WHERE
+            id = #{userId}
+        ]]>
+    </update>
+
+    <!-- 查询除当前用户以外的email数目 -->
+    <select id="selectSumEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[
+         SELECT
+            COUNT(*) 
+         FROM
+            t_user
+         WHERE
+            email = #{email}
+            AND id <> #{userId}
+        ]]>
+    </select>
+
+</mapper>

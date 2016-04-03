@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.user.dao.IMgrRoleMybatisDao">
+
+    <!-- 根据id查询角色 -->
+    <select id="selectById" parameterType="java.lang.String" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrRole">
+        SELECT
+            id,
+            name,
+            permission_ids AS permissionIds,
+            is_available AS isAvailable,
+            descriptions
+        FROM
+            t_mgr_role
+        WHERE
+            id = #{id} AND is_available = TRUE
+    </select>
+    
+    <!-- 查询角色列表 -->
+    <select id="selectsAll" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrRole">
+        SELECT
+            id,
+            name,
+            permission_ids AS permissionIds,
+            is_available AS isAvailable,
+            descriptions
+        FROM
+            t_mgr_role
+        WHERE
+            is_available = TRUE
+        ORDER BY id
+    </select>
+    
+    <!-- 新增角色 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrRole">
+        <![CDATA[
+            INSERT INTO t_mgr_role
+            (
+                id,
+                name,
+                permission_ids,
+                is_available,
+                descriptions
+            )
+            VALUES
+            (
+                #{id},
+                #{name},
+                #{permissionIds},
+                #{isAvailable},
+                #{descriptions}
+            )
+        ]]>
+    </insert>
+    
+    <!-- 根据主键(ID)删除角色。 -->
+    <delete id="updateToDelete" parameterType="java.lang.String">
+        <![CDATA[
+            UPDATE 
+                t_mgr_role
+            SET
+                is_available = FALSE
+            WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <!-- 修改角色。 -->
+    <update id="update" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrRole">
+        <![CDATA[
+            UPDATE 
+                t_mgr_role
+            SET
+                name = #{name},
+                permission_ids = #{permissionIds},
+                is_available = #{isAvailable},
+                descriptions = #{descriptions}
+            WHERE id = #{id}
+        ]]>
+    </update>
+
+</mapper>

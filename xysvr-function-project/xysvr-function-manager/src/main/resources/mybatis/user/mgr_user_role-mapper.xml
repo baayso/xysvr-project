@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.user.dao.IMgrUserRoleMybatisDao">
+
+    <!-- 根据id查询用户角色关联 -->
+    <select id="selectById" parameterType="java.lang.String" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrUserRole">
+        SELECT
+            id,
+            user_id AS userId,
+            role_id AS roleId
+        FROM
+            t_mgr_user_role
+        WHERE
+            id = #{id}
+    </select>
+    
+    <!-- 查询用户角色关联列表 -->
+    <select id="selectsAll" resultType="cn.xyspace.xysvr.function.manager.user.entity.MgrUserRole">
+        SELECT
+            id,
+            user_id AS userId,
+            role_id AS roleId
+        FROM
+            t_mgr_user_role
+    </select>
+    
+    <!-- 新增用户角色关联 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrUserRole">
+        <![CDATA[
+            INSERT INTO t_mgr_user_role
+            (
+                id,
+                user_id AS userId,
+                role_id AS roleId
+            )
+            VALUES
+            (
+                #{id},
+                #{userId},
+                #{roleId}
+            )
+        ]]>
+    </insert>
+    
+    <!-- 根据主键(ID)删除用户角色关联。 -->
+    <delete id="delete" parameterType="java.lang.String">
+        <![CDATA[
+            DELETE FROM
+                t_mgr_user_role
+            WHERE id = #{id}
+        ]]>
+    </delete>
+
+    <!-- 修改用户角色关联。 -->
+    <update id="update" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrUserRole">
+        <![CDATA[
+            UPDATE
+                t_mgr_user_role
+            SET
+                user_id = #{userId},
+                role_id = #{roleId}
+            WHERE id = #{id}
+        ]]>
+    </update>
+    
+    <!-- 新增用户角色关联 -->
+    <insert id="insertMore" parameterType="java.util.List">  
+        INSERT INTO t_mgr_user_role 
+        (
+            id,
+            user_id,
+            role_id
+        )   
+        values  
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.userId},
+                #{item.roleId}
+            )  
+        </foreach>  
+    </insert>
+    
+    <!-- 根据用户角色关联id删除数据。 -->
+    <delete id="deleteMore" parameterType="java.lang.String">
+        <![CDATA[
+            DELETE FROM
+                t_mgr_user_role
+            WHERE user_id = #{id}
+        ]]>
+    </delete>
+
+</mapper>

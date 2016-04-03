@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE shardingConfig
+    PUBLIC "-//shardbatis.googlecode.com//DTD Shardbatis 2.0//EN"
+    "http://shardbatis.googlecode.com/dtd/shardbatis-config.dtd">
+
+<shardingConfig>
+
+    <!-- ignoreList配置的mapperId会被分表插件忽略解析，不会对sql进行修改
+        <ignoreList>
+        <value>com.google.code.shardbatis.test.mapper.AppTestMapper.insertNoShard</value>
+        </ignoreList>
+    -->
+
+    <!-- parseList可选配置，如果配置了parseList，只有在parseList范围内并且不再ignoreList内的sql才会被解析和修改 -->
+    <parseList>
+        <!-- 微博相关 -->
+        <value>cn.xyspace.xysvr.function.manager.microblog.dao.IMicroblogBlacklistMybatisDao.insert</value>
+        <!-- 系统通知相关 -->
+        <value>cn.xyspace.xysvr.common.notify.dao.INotifyMybatisDao.insert</value>
+        <!-- 金币变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserMoneyChangeRecordMybatisDao.insert</value>
+        <!-- 积分变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserBonusPointChangeRecordMybatisDao.insert</value>
+        <!-- 钱财变动记录相关 -->
+        <value>cn.xyspace.xysvr.common.user.dao.IUserRmoneyChangeRecordMybatisDao.insert</value>
+
+    </parseList>
+
+    <!-- 微博相关分表策略 -->
+    <strategy tableName="t_microblog_blacklist"
+        strategyClass="cn.xyspace.xysvr.function.manager.microblog.dao.shardbatis.MicroblogBlacklistDateTimeShardStrategyImpl" />
+
+    <!-- 系统通知相关分表策略 -->
+    <strategy tableName="t_notify_message" strategyClass="cn.xyspace.xysvr.common.notify.dao.shardbatis.NotifyDateTimeShardStrategyImpl" />
+
+    <!-- 金币变动记录表策略 -->
+    <strategy tableName="t_user_money_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserMoneyChangeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 积分变动记录表策略 -->
+    <strategy tableName="t_user_bonus_point_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserBonusPointChangeRecordDateTimeShardStrategyImpl" />
+
+    <!-- 钱财变动记录表策略 -->
+    <strategy tableName="t_user_rmoney_change_record"
+        strategyClass="cn.xyspace.xysvr.common.user.dao.shardbatis.UserRmoneyChangeRecordDateTimeShardStrategyImpl" />
+
+</shardingConfig>

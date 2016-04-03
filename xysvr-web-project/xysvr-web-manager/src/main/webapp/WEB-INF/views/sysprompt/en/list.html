@@ -1,0 +1,97 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["系统提示管理","英文系统提示列表"]}){}%>
+<!-- 引入header模板 start -->
+
+<script type="text/javascript">
+   function update(id) {
+      location.href = "${ctxPath}/sysprompt/en/editUI/" + id;
+   }
+   
+   $(function() {
+      $("#workerListTab").tablesorter({
+        widgets: ['zebra','columnHighlight','rowHover'],
+        headers:{ 1: { sorter: false}, 2: { sorter: false},3: { sorter: false},5: { sorter: false}}});
+   });
+   
+   jQuery.validator.addMethod("isEncode", function(value, element) {
+       if(value.length > 0){
+           var ereg = /^[0-9]{4,5}$/;
+           if (!value.match(ereg)) {
+               return false;
+           }
+       }
+       return true;
+   }, "编码必须为4-5位的数字");
+   $(function() {
+       $("#checkForm").validate({
+           errorPlacement : function(error, element) {
+               var error_td = element.next('em');
+               error_td.find('.field_notice').hide();
+               error_td.append(error);
+           },
+           success : function(label) {
+               label.addClass('validate_right').text('OK!');
+           },
+           onkeyup : false,
+           rules : {
+               encode : {
+                   isEncode : true,
+                   required : false
+               }
+           },
+           messages : {
+           },
+       });
+   });
+   
+</script>
+
+<form id="checkForm" action="list" class="am-form-inline">
+        编码： <input type="text" id="encode" name="encode" value="${encode}" placeholder="输入编码" class="am-form-field" style="width: 200px;" />
+            <em><label class="field_notice"></label></em>&nbsp;&nbsp; 
+          <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+            <i class="am-icon-search"></i>&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;
+          </button>
+</form>
+<br />
+
+<table id="workerListTab" class="am-table am-table-bordered am-table-striped am-table-hover">
+   <thead>
+        <tr>
+            <th>编号</th>
+            <th>模块</th>
+            <th>编码</th>
+            <th>提示内容</th>
+            <th>修改时间</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(syspromptEn in pageInfo.list) { %>
+        <tr>
+            <td>${syspromptEnLP.index}</td>
+            <td>${syspromptEn.module}</td>
+            <td>${syspromptEn.code}</td>
+            <td>${syspromptEn.content}</td>
+            <td><script type="text/javascript">
+                    var time = getLocalTime(${syspromptEn.mtime});
+                    document.write(time);
+                </script>
+            </td>
+            <td>
+                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="update('${syspromptEn.id}')">
+                    <i class="am-icon-edit"></i>&nbsp;&nbsp;&nbsp;修改
+                </button>
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<!-- 引入带查询参数的分页模板 start -->
+<%include("../../common/searchPage.html",{'parameter':["encode",encode]}){}%>
+<!-- 引入带查询参数的分页模板 end -->
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

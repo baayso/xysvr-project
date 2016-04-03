@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.common.user.dao.IUserAssetMybatisDao">
+
+    <resultMap id="userAssetResultMap" type="cn.xyspace.xysvr.common.user.entity.UserAsset">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="bonus_point" property="bonusPoint" jdbcType="INTEGER" />
+        <result column="money" property="money" jdbcType="INTEGER" />
+        <result column="lock_money" property="lockMoney" jdbcType="INTEGER" />
+        <result column="earn_money" property="earnMoney" jdbcType="INTEGER" />
+        <result column="rmoney" property="rmoney" />
+        <result column="lock_rmoney" property="lockRmoney" />
+        <result column="lucky" property="lucky" jdbcType="INTEGER" />
+        <result column="hitface" property="hitface" jdbcType="INTEGER" />
+        <result column="hittedface" property="hittedface" jdbcType="INTEGER" />
+        <result column="merit" property="merit" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!-- 新增用户财富数据 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.common.user.entity.UserAsset">
+        <![CDATA[
+        INSERT INTO t_user_asset
+        (
+            id,
+            bonus_point,
+            money,
+            level
+        )
+        VALUES
+        (
+            #{id},
+            #{bonusPoint},
+            #{money},
+            #{level}
+        )
+        ]]>
+    </insert>
+
+    <!-- 根据主键更新基本金币 -->
+    <update id="updateMoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            money = #{money}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新基本金币和钱财 -->
+    <update id="updateMoneyAndRmoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            money = #{money},
+            rmoney = #{rmoney}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新基本金币 -->
+    <select id="processingUpdateMoneyById" statementType="CALLABLE" resultType="java.lang.Boolean">  
+        <![CDATA[ {call update_money_by_id_procedure(#{id, mode=IN, jdbcType=VARCHAR},#{username, mode=IN, jdbcType=VARCHAR}, #{recordId, mode=IN, jdbcType=VARCHAR}, #{desc, mode=IN, jdbcType=VARCHAR}, #{money, mode=IN, jdbcType=INTEGER})} ]]>
+    </select>
+
+    <!-- 根据主键更新基本钱财 -->
+    <update id="updateRmoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            rmoney = #{rmoney}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新锁定钱财 -->
+    <update id="updateLrmoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            lock_rmoney = #{lRmoney}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新锁定金币 -->
+    <update id="updateLockMoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            lock_money = #{lockMoney}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新基本金币和锁定金币 -->
+    <update id="updateMoneyAndLockMoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            lock_money = #{lockMoney},
+            money = #{money}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+    <!-- 根据主键更新积分 -->
+    <update id="updateBonusPointById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            bonus_point = #{bonusPoint}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新积分和基本金币 -->
+    <update id="updateBonusPointAndMoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            bonus_point = #{bonusPoint},
+            money = #{money}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键更新积分和基本金币 -->
+    <select id="processingUpdateBonusPointAndMoneyById" statementType="CALLABLE" resultType="java.lang.Boolean">  
+        <![CDATA[ {call update_bonus_point_and_money_by_id_procedure(#{id, mode=IN, jdbcType=VARCHAR}, #{username, mode=IN, jdbcType=VARCHAR}, #{recordId, mode=IN, jdbcType=VARCHAR},#{ruleType, mode=IN, jdbcType=INTEGER})} ]]>
+    </select>
+
+    <!-- 根据主键更新真实钱财和锁定真实钱财 -->
+    <update id="updateRmoneyAndLockRmoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            lock_rmoney = #{lockRmoney},
+            rmoney = #{rmoney}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+    <!-- 根据主键查询用户财富（不使用行级排他锁查询） -->
+    <select id="selectById" parameterType="java.lang.String" resultMap="userAssetResultMap">
+        <![CDATA[
+        SELECT
+            id,
+            bonus_point,
+            money,
+            lock_money,
+            earn_money,
+            rmoney,
+            lock_rmoney,
+            lucky,
+            hitface,
+            hittedface,
+            merit,
+            level
+        FROM
+            t_user_asset
+        WHERE
+            id = #{id}
+        ]]>
+    </select>
+
+    <!-- 根据主键查询用户财富（使用行级排他锁查询） -->
+    <select id="queryById" parameterType="java.lang.String" resultMap="userAssetResultMap">
+        <![CDATA[
+        SELECT
+            id,
+            bonus_point,
+            money,
+            lock_money,
+            earn_money,
+            rmoney,
+            lock_rmoney,
+            lucky,
+            hitface,
+            hittedface,
+            merit,
+            level
+        FROM
+            t_user_asset
+        WHERE
+            id = #{id}
+        FOR UPDATE
+        ]]>
+    </select>
+
+    <!-- 根据主键更新基本金币和功德 -->
+    <update id="updateMoneyAndMeritById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            money = #{money},
+            merit = #{merit}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+    
+    <!-- 根据主键更新用户赢取的金币-->
+    <update id="updateEarnMoneyById">
+        <![CDATA[
+        UPDATE
+            t_user_asset
+        SET
+            earn_money = #{earnMoney}
+        WHERE
+            id = #{id}
+        ]]>
+    </update>
+
+</mapper>

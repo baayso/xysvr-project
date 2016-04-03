@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <title>Websocket Client</title>
+
+    <script type="text/javascript">
+
+        var output = null;
+        var ws = null;
+
+        var keepAliveInterval = self.setInterval("keepAlive()", 55000)
+
+        function keepAlive() {
+            if (ws != null) {
+                ws.send("keepalive:iamhere.");
+            }
+        }
+
+        window.onload = function () {
+        }
+
+        function setup() {
+            output = document.getElementById("outputDiv");
+            ws = new WebSocket("ws://localhost.xy-space.cn:8080/xysvr/websocket/api/v1/msg");
+            // ws = new WebSocket("wss://xysvr2.xy-space.cn:8443/xysvr/websocket/api/v1/msg");
+
+            ws.onopen = function (e) {
+                log("Connected. " + new Date());
+            }
+
+            ws.onclose = function (e) {
+                log("Disconnected. " + new Date());
+            }
+
+            ws.onerror = function (e) {
+                log("Error. " + new Date());
+            }
+
+            ws.onmessage = function (e) {
+                if (e.data == "keepalive:iamheretoo.") {
+                    log("心跳消息：" + e.data);
+                } else {
+                    log("Message received: " + e.data);
+                }
+
+                output.scrollTop = output.scrollHeight;
+            }
+        }
+
+        function openConn() {
+            setup();
+        }
+
+        function closeConn() {
+            ws.close();
+            ws = null;
+        }
+
+        function sendMsg() {
+            var toUser = document.getElementById("toUser").value;
+            var type = document.getElementById("type").value;
+            var content = document.getElementById("content").value;
+            var longitude = document.getElementById("longitude").value;
+            var latitude = document.getElementById("latitude").value;
+            var city = document.getElementById("city").value;
+            var position = document.getElementById("position").value;
+
+            var jsonData = {
+                toUser: toUser,
+                type: type,
+                content: content,
+                longitude: longitude,
+                latitude: latitude,
+                city: city,
+                position: position
+            };
+
+            ws.send(JSON.stringify(jsonData));
+        }
+
+        function log(s) {
+            var p = document.createElement("p")
+            p.style.wordWrap = "break-word";
+            p.textContent = s;
+
+            output.appendChild(p);
+
+            console.log(s);
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+<h2>Websocket Client</h2>
+
+<div>
+    <p>
+        <button id="btnConn" onclick="openConn()">打开连接</button>
+        <button id="btnClose" onclick="closeConn()">关闭连接</button>
+    </p>
+    <br/>
+
+    <p>
+        toUser：<input type="text" id="toUser" name="toUser"/> <br/>
+        私信类型：
+        <select id="type" name="type">
+            <option value="TEXT" selected>文字</option>
+            <option value="IMAGE">图片</option>
+            <option value="AUDIO">语音</option>
+            <option value="VIDEO">视频</option>
+        </select><br/>
+        <textarea rows="3" cols="50" id="content" name="content"></textarea><br/>
+        经度：<input type="text" id="longitude" name="longitude" value="118.812798"/><br/>
+        纬度：<input type="text" id="latitude" name="latitude" value="32.046096"/><br/>
+        城市：<input type="text" id="city" name="city" value="南京"/><br/>
+        位置：<input type="text" id="position" name="position" value="江苏省南京市秦淮区公园路38号创智汇"/><br/>
+        <br/>
+        <button id="btnSend" onclick="sendMsg();">发送消息</button>
+    </p>
+
+    <br/>
+
+</div>
+
+<div id="outputDiv" style="width: 1000px; height: 550px; overflow: auto; border: 1px solid lightgrey"></div>
+
+</body>
+
+</html>

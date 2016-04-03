@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.function.manager.user.dao.IMgrUserLoginLogMybatisDao">
+
+    <!-- 新增登陆日志 -->
+    <insert id="insert" parameterType="cn.xyspace.xysvr.function.manager.user.entity.MgrUserLoginLog">
+        <![CDATA[
+        INSERT INTO t_mgr_user_login_log
+        (
+            id,
+            user_id,
+            username,
+            login_ip,
+            is_success,
+            login_time
+        )
+        VALUES
+        (
+            #{id},
+            #{userId},
+            #{username},
+            #{loginIp},
+            #{isSuccess},
+            #{loginTime}
+        )
+        ]]>
+    </insert>
+
+</mapper>

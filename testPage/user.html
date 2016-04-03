@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>user</title>
+</head>
+
+<body>
+
+    验证用户名：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/user/hasUsername" method="post">
+        用户名：<input type="text" name="username" value="admin" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+    <p />
+
+    验证email：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/user/hasEmail" method="post">
+        Email：<input type="text" name="email" value="admin@admin.com" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+    <p />
+
+    登录：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/session/login" method="post">
+        用户名：<input type="text" name="username" value="super" /><br />
+        密码：<input type="text" name="password" value="super" /><br />
+        经度：<input type="text" name="longitude" value="118.812798" /><br />
+        纬度：<input type="text" name="latitude" value="32.046096" /><br />
+        城市：<input type="text" name="city" value="南京" /><br />
+        记住我：<input type="checkbox" name="rememberMe" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+    <p />
+
+    注册：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/user/register" method="post">
+        用户名：<input type="text" name="username" value="admin" /><br />
+        密码：<input type="text" name="password" value="admin" /><br />
+        重复密码：<input type="text" name="repassword" value="admin" /><br />
+        性别：<input type="text" name="gender" value="M" /><br />
+        email:<input type="text" name="email" value="admin@admin.com" /><br />
+        邀请人:<input type="text" name="inviter" value="" /><br />
+        注册标识符(由6-36位字母（大小写均可）或数字组成):<input type="text" name="identifier" value="34567890" /><br />
+        经度：<input type="text" name="longitude" value="118.812798" /><br />
+        纬度：<input type="text" name="latitude" value="32.046096" /><br />
+        城市：<input type="text" name="city" value="南京" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+    <p />
+
+    修改密码：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/user/modify/password" method="POST">
+        原密码：<input type="text" name="password" value="admin" /><br />
+        新密码：<input type="text" name="newPassword" value="admin" /><br />
+        重复密码：<input type="text" name="reNewPassword" value="admin" /><br />
+        经度：<input type="text" name="longitude" value="118.812798" /><br />
+        纬度：<input type="text" name="latitude" value="32.046096" /><br />
+        城市：<input type="text" name="city" value="南京" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+    <p />
+
+    修改用户信息：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/user/update" method="post">
+        签名：<input type="text" name="intro" value="我在太阳升起的地方等你" /><br />
+        邮箱：<input type="text" name="email" value="super@super.com" /><br />
+        手机号：<input type="text" name="telephone" value="13770717070" /><br />
+        经度：<input type="text" name="longitude" value="118.812798" /><br />
+        纬度：<input type="text" name="latitude" value="32.046096" /><br />
+        城市：<input type="text" name="city" value="南京" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+    <p />
+
+    上传用户图像：
+    <form action="http://localhost.xy-space.cn:8080/xysvr/api/v1/user/icon/upload" method="post">
+        图像：<input type="file" name="userIcon" value="{'iconPath': '111', 'size': 111, 'mime': '111', 'hash': '111', 'width': 'null', 'height': 'null', 'oname':'111'}" /><br />
+        经度：<input type="text" name="longitude" value="118.812798" /><br />
+        纬度：<input type="text" name="latitude" value="32.046096" /><br />
+        城市：<input type="text" name="city" value="南京" /><br />
+        <input type="submit" value="submit" />
+    </form>
+
+</body>
+</html>

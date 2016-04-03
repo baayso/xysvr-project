@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.common.core.sysconfig.dao.ISysConfigMybatisDao">
+
+    <!-- 获取所有 配置信息。 -->
+    <select id="selectAll" resultType="cn.xyspace.xysvr.common.core.sysconfig.entity.SysConfig">
+        <![CDATA[
+        SELECT
+            id,
+            type,
+            name,
+            value,
+            descriptions,
+            mtime
+        FROM
+            t_sysconfig
+        ]]>
+        <where>
+            <if test="type != null and type.length() > 0">
+                <![CDATA[ type LIKE '%' || #{type} || '%' ]]>
+            </if>
+            <if test="name != null and name.length() > 0">
+                <![CDATA[ AND name LIKE '%' || #{name} || '%' ]]>
+            </if>
+        </where>
+        <![CDATA[
+        ORDER BY
+            id
+        ]]>
+    </select>
+
+    <!--根据主键更新配置值。 -->
+    <update id="updateSysConfig">
+        <![CDATA[ 
+        UPDATE 
+            t_sysconfig 
+        SET 
+            value = #{value}, 
+            descriptions = #{descriptions},
+            mtime = #{mtime}
+        WHERE 
+            id = #{id} 
+        ]]>
+    </update>
+
+    <!-- 根据主键(id)查询系统配置信息。 -->
+    <select id="selectById" parameterType="java.lang.String" resultType="cn.xyspace.xysvr.common.core.sysconfig.entity.SysConfig">
+        <![CDATA[
+        SELECT
+            id,
+            type,
+            name,
+            value,
+            descriptions,
+            mtime
+        FROM
+            t_sysconfig
+        WHERE
+            id = #{id}
+        ]]>
+    </select>
+
+</mapper>

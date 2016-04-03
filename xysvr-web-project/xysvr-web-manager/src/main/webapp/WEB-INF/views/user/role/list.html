@@ -1,0 +1,70 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["后台角色管理","角色列表"]}){}%>
+<!-- 引入header模板 start -->
+<script type="text/javascript">
+    function update(roleId) {
+        location.href = "${ctxPath}/user/role/editUI/" + roleId;
+    }
+    function del(roleId) {
+        if (window.confirm("是否确认删除？删了就真没了哦")) {
+            location.href = "${ctxPath}/user/role/delete/" + roleId;
+        }
+    }
+    $(function() {
+        $("#workerListTab").tablesorter({
+            widgets: ['zebra','columnHighlight','rowHover'],
+            headers:{1: { sorter: false},2: { sorter: false},3: { sorter: false},4: { sorter: false},5: { sorter: false}}                                                                       
+        });
+    });
+</script>
+<table id="workerListTab" class="am-table am-table-bordered am-table-striped am-table-hover tablesorter">
+    <thead>
+        <tr>
+            <th>编号</th>
+            <th>角色名</th>
+            <!-- <th>授予的权限列表</th> -->
+            <th>是否可用</th>
+            <th>角色描述</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(role in pageInfo.list){ %>
+        <tr>
+            <td>${roleLP.index}</td>
+            <td>${role.name}</td>
+            <!-- <td>${role.permissionIds}</td> -->
+            <td>
+                <% if(role.isAvailable == true) { %>
+                                                     是
+                <% } else { %>
+                                                     否
+                <% } %>
+            </td>
+            <td>${role.descriptions}</td>
+            <td>
+                <% if(role.name == 'admin') { %>
+                <% } else { %>
+                    <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="update('${role.id}')">
+                        <i class="am-icon-eraser"></i>&nbsp;&nbsp;&nbsp;修改
+                    </button>&nbsp;
+                    <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="del('${role.id}')">
+                        <i class="am-icon-trash"></i>&nbsp;&nbsp;&nbsp;删除
+                    </button>&nbsp;
+                    <button type="button" class="am-btn am-btn-primary am-btn-xs" name="id" onclick="window.location.href='${ctxPath}/user/role/toSetPermissions/${role.id}'">
+                        <i class="am-icon-cog"></i>&nbsp;&nbsp;&nbsp;设置权限
+                    </button>
+                <% } %>
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<!-- 引入分页模板 start -->
+<%include("../../common/page.html"){}%>
+<!-- 引入分页模板 end -->
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

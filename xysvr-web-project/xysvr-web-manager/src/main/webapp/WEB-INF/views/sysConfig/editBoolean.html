@@ -1,0 +1,53 @@
+<!-- 引入header模板 start -->
+<%include("../common/header.html",{'stageArr':["系统配置信息管理","修改系统配置信息"]}){}%>
+<!-- 引入header模板 start -->
+<script type="text/javascript">
+    function cancel() {
+        if (window.confirm("确定取消本次修改？")) {
+            location.href = "../list";
+        }
+    }
+</script>
+
+<form class="am-form" action="../edit/${sysconfig.id}" method="post">
+
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">配置名称</div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" class="am-input-sm" value="${sysconfig.name}" readonly="readonly" />
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            配置值<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <select id="value" name="value">
+                <option value="true"<% if(sysconfig.value == "true"){%> selected=selected <% } %> >true</option>
+                <option value="false"<% if(sysconfig.value == "false"){%> selected=selected <% } %>>false</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">配置描述</div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="descriptions" name="descriptions" class="am-input-sm"
+                value="${sysconfig.descriptions}" readonly="readonly" />
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top-sm submit-div">
+        <button type="submit" class="am-btn am-btn-primary am-btn-xs">
+            <i class="am-icon-check"></i>&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;
+        </button>
+        <button type="reset" class="am-btn am-btn-primary am-btn-xs submit-r" onclick="cancel()">
+            <i class="am-icon-close"></i>&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;
+        </button>
+    </div>
+</form>
+
+<!-- 引入bottom start -->
+<%include("../common/bottom.html"){}%>
+<!-- 引入bottom end -->

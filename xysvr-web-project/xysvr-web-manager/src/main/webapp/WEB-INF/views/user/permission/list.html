@@ -1,0 +1,68 @@
+<!-- 引入header模板 start -->
+<%include("../../common/header.html",{'stageArr':["后台管理员管理","管理员列表"]}){}%>
+<!-- 引入header模板 start -->
+<script type="text/javascript">
+    function update(permissionId) {
+        location.href = "${ctxPath}/user/permission/editUI/" + permissionId;
+    }
+    function del(permissionId) {
+        if (window.confirm("是否确认删除？删了就真没了哦")) {
+            location.href = "${ctxPath}/user/permission/delete/" + permissionId;
+        }
+    }
+    $(function() {
+        $("#workerListTab").tablesorter({
+            widgets: ['zebra','columnHighlight','rowHover'],
+            headers:{1: { sorter: false},2: { sorter: false},3: { sorter: false},4: { sorter: false},5: { sorter: false},6: { sorter: false},7: { sorter: false},8: { sorter: false},9: { sorter: false},10: { sorter: false}}                                                                       
+        });
+    });
+</script>
+<table id="workerListTab" class="am-table am-table-bordered am-table-striped am-table-hover tablesorter">
+    <thead>
+        <tr>
+            <th>编号</th>
+            <th>权限ID</th>
+            <th>权限名称</th>
+            <th>权限类型</th>
+            <th>url</th>
+            <th>父权限ID</th>
+            <th>父权限ID列表</th>
+            <th>权限字符串</th>
+            <th>是否可用</th>
+            <th>权限描述</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(permission in pageInfo.list){ %>
+        <tr>
+            <td>${permissionLP.index}</td>
+            <td>${permission.id}</td>
+            <td>${permission.name}</td>
+            <td>${permission.type}</td>
+            <td>${permission.url}</td>
+            <td>${permission.parentId}</td>
+            <td>${permission.parentIds}</td>
+            <td>${permission.permissionStr}</td>
+            <td>${permission.isAvailable}</td>
+            <td>${permission.descriptions}</td>
+            <td>
+                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="update('${permission.id}')">
+                    <i class="am-icon-eraser"></i>&nbsp;&nbsp;&nbsp;修改
+                </button>&nbsp;
+                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="del('${permission.id}')">
+                    <i class="am-icon-trash"></i>&nbsp;&nbsp;&nbsp;删除
+                </button>&nbsp;
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<!-- 引入分页模板 start -->
+<%include("../../common/page.html"){}%>
+<!-- 引入分页模板 end -->
+
+<!-- 引入bottom start -->
+<%include("../../common/bottom.html"){}%>
+<!-- 引入bottom end -->

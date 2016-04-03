@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- namespace必须指向MybatisDao接口 -->
+<mapper namespace="cn.xyspace.xysvr.common.dao.IUserMybatisDao">
+
+    <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" /> -->
+
+    <resultMap id="baseResultMap" type="User">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="User">
+        INSERT INTO t_user(id, username) VALUES(#{id}, #{username})
+    </insert>
+
+    <!-- 查询 -->
+    <select id="select" resultMap="baseResultMap" parameterType="java.util.Map">
+        SELECT id, username
+        FROM t_user
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="username != null">
+                AND username = #{username}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据主键查询 -->
+    <select id="selectById" resultMap="baseResultMap" parameterType="java.lang.String">
+        SELECT id, username FROM t_user WHERE id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,77 @@
+<!-- 引入header模板 start -->
+<%include("../common/header.html",{'stageArr':["系统配置信息管理","修改系统配置信息"]}){}%>
+<!-- 引入header模板 start -->
+<script type="text/javascript">
+    function cancel() {
+        if (window.confirm("确定取消本次修改？")) {
+            location.href = "../list";
+        }
+    }
+    
+    jQuery.validator.addMethod("isValue", function(value, element){
+    	var ereg = /^[a-zA-Z0-9_\u4e00-\u9fa5(,.!@#$%&/:;)\uFE30-\uFFA0-]{1,250}$/;
+    	if (!value.match(ereg)) {
+    		return false;
+    	}
+    	return true;
+    }, "配置值应为250位以内不包含,.!@#$%&/:;以外英文符号的汉字、字母和数字字符");
+    $(function(){
+        $("#searchForm").validate({
+            errorPlacement: function(error, element){
+                var error_td = element.next('em');
+                error_td.find('.field_notice').hide();
+                error_td.append(error);
+            },
+            success: function(label){
+                label.addClass('validate_right').text('OK!');
+            },
+            onkeyup: false,
+            rules: {
+                value:{isValue:true,required:true}
+            },
+            messages: {
+                value:{required:"不能为空！"}
+            },
+        });
+    });
+</script>
+
+<form class="am-form" action="../edit/${sysconfig.id}" method="post" id="searchForm">
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">配置名称</div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" class="am-input-sm" value="${sysconfig.name}" readonly="readonly" />
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">
+            配置值<em class="must-em">*</em>
+        </div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="value" name="value" class="am-input-sm" value="${sysconfig.value}" />
+            <em><label class="field_notice"></label></em>
+        </div>
+    </div>
+    
+    <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-2 am-text-right">配置描述</div>
+        <div class="am-u-sm-4 am-u-end">
+            <input type="text" id="descriptions" name="descriptions" class="am-input-sm"
+                value="${sysconfig.descriptions}" readonly="readonly" />
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top-sm submit-div">
+        <button type="submit" class="am-btn am-btn-primary am-btn-sm">
+            <i class="am-icon-check"></i>&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;
+        </button>
+        <button type="reset" class="am-btn am-btn-primary am-btn-sm submit-r" onclick="cancel()">
+            <i class="am-icon-close"></i>&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;
+        </button>
+    </div>
+</form>
+
+<!-- 引入bottom start -->
+<%include("../common/bottom.html"){}%>
+<!-- 引入bottom end -->

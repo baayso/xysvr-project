@@ -1,0 +1,248 @@
+/* login styles */
+.login_body {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    background: linear-gradient(45deg, #13113F 0, #6d3353 100%);
+}
+
+.login_body:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../i/bs-docs-masthead-pattern.png) repeat center center;
+    opacity: .4;
+}
+
+.loginall {
+    width: 980px;
+    margin: 0 auto;
+}
+
+.top-title {
+    width: 980px;
+    height: 300px;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+}
+
+.top-title h1 {
+    margin-top: 50px;
+}
+
+.login-input {
+    margin-top: 30px;
+}
+
+.bottom {
+    color: #919191;
+    text-align: center;
+    margin-top: 100px;
+}
+
+/* index styles */
+.menu {
+    width: 200px;
+    min-height: 700px;
+    background: #0099FF
+}
+
+ul {
+    margin-top: 0;
+}
+
+.admin-icon-yellow {
+    color: #ffbe40;
+}
+
+.admin-header {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.admin-header-list a:hover :after {
+    content: none;
+}
+
+.admin-main {
+    background: #f3f3f3;
+}
+
+.admin-sidebar {
+    width: 260px;
+    min-height: 100%;
+    float: left;
+    border-right: 1px solid #cecece;
+}
+
+.simple-title {
+    margin: 0;
+    height: 45px;
+    position: relative;
+    display: block;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #dedede;
+    border-width: 1px 0;
+}
+
+.simple-title  a {
+    width: 100%;
+    background: #fff;
+    color: #5c5c5c;
+    padding-left: 24px;
+    color: #5c5c5c;
+}
+
+.section-all dl dt {
+    margin: 0;
+    height: 45px;
+    padding-top: 8px;
+    position: relative;
+    display: block;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #dedede;
+    border-width: 1px 0;
+    padding-left: 24px;
+    color: #5c5c5c;
+    position: relative;
+}
+
+.section-all dl dt span, .simple-title  a span {
+    margin-right: 10px;
+}
+
+.admin-sidebar-sub {
+    margin-top: 0;
+    margin-bottom: 0;
+    box-shadow: 0 16px 8px -15px #e2e2e2 inset;
+    background: #ececec;
+    padding-left: 24px;
+}
+
+.admin-sidebar-sub li:first-child {
+    border-top: 1px solid #dedede;
+}
+
+.admin-sidebar-sub li a {
+    color: #5c5c5c;
+    padding-left: 24px;
+}
+
+.company-noctic {
+    padding-left: 13px;
+}
+
+.company-noctic span {
+    margin-right: 10px;
+    color: #5c5c5c;
+}
+
+.admin-content {
+    width: auto;
+    overflow: hidden;
+    height: 100%;
+    background: #fff;
+    padding: 0px 25px 0px 30px;
+}
+
+.admin-content iframe {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+footer {
+    border-top: #cecece solid 1px;
+}
+/* home */
+.home-all {
+    color: #666;
+}
+
+.home-all h6 {
+    width: 200px;
+    margin: 0 auto;
+}
+
+/* 列表排序 */
+table.tablesorter thead tr .header {
+    background-image: url(../i/bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+    text-align: center;
+}
+
+table.tablesorter thead tr .headerSortUp {
+    background-image: url(../i/asc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown {
+    background-image: url(../i/desc.gif);
+}
+
+/* timepicker-addon 样式 */
+.ui-timepicker-div .ui-widget-header {
+    margin-bottom: 8px;
+}
+
+.ui-timepicker-div dl {
+    text-align: left;
+}
+
+.ui-timepicker-div dl dt {
+    height: 25px;
+    margin-bottom: -25px;
+}
+
+.ui-timepicker-div dl dd {
+    margin: 0 10px 10px 65px;
+}
+
+.ui-timepicker-div td {
+    font-size: 90%;
+}
+
+.ui-tpicker-grid-label {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ui_tpicker_hour_label, .ui_tpicker_minute_label, .ui_tpicker_second_label, .ui_tpicker_millisec_label,
+    .ui_tpicker_time_label {
+    padding-left: 20px
+}
+
+/* 其他样式 */
+.must-em {
+    margin-left: 10px;
+    color: #F40606;
+    font-weight: bold;
+}
+
+.submit-div {
+    width: 500px;
+    margin-left: 20%;
+    margin-top: 20px;
+}
+
+.submit-r {
+    margin-left: 40%;
+}
+
+.page-404 {
+    background: #fff;
+    border: none;
+    width: 200px;
+    margin: 0 auto;
+}
+ul.ztree {margin-top: 10px;border: 1px solid #617775;background: #f0f6e4;overflow-y:scroll;overflow-x:auto;}
