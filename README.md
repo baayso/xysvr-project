@@ -1,4 +1,4 @@
-#xysvr-project
+# xysvr-project
 <br/>
 注：项目中所有与业务逻辑相关的代码已经全部删除，只保留项目架构和基本代码。
 
@@ -7,7 +7,7 @@
 
 服务器配置请转到：https://github.com/baayso/xysvr-config
 
-###服务端架构示意图：
+### 服务端架构示意图：
 ![服务端架构示意图](http://7xkgtt.com1.z0.glb.clouddn.com/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png)
 
 两台Nginx负责接收客户端发来的请求(实际使用的是阿里的[Tengine](http://tengine.taobao.org "The Tengine Web Server"))，接收到请求后，将请求随机丢给一台Tomcat，所有的Tomcat都从Redis中获取Session数据（Session数据集中存储），请求处理完成后返回给客户端。
@@ -43,14 +43,15 @@ Shiro框架的Session相关部分配置如下：
 
 ****
 <br/>
-###Session集中存储
+### Session集中存储
+
 Shiro提供了完整的企业级会话管理功能，不依赖于底层容器（如Web容器Tomcat），不管JavaSE还是JavaEE环境都可以使用，提供了会话管理、会话事件监听、会话存储/持久化、容器无关的集群、失效/过期支持、对Web的透明支持、SSO单点登录的支持等特性。即直接使用Shiro的会话管理可以直接替换如Web容器的会话管理。
 
 项目中使用[shiro-redis](https://github.com/baayso/shiro-redis "shiro-redis")库将Session数据集中存储在Redis中。
 
 ****
 <br/>
-###WebSocket
+### WebSocket
 
 项目中用户之间的私信功能是通过WebSocket实现的，可以做到用户之间进行实时通信。具体代码可以点下面的链接进行查看。
 
@@ -58,7 +59,7 @@ https://github.com/baayso/xysvr-project/blob/master/xysvr-function-project/xysvr
 
 ****
 <br/>
-###项目依赖的第三方库：
+### 项目依赖的第三方库：
 
 https://github.com/baayso/shiro-redis （我将这个工具中的序列化修改成了使用[FST](http://www.oschina.net/p/fst "Java快速序列化库")库实现，并在 RedisManager 类中加入了 JedisPoolConfig 成员变量和相应的 getter 和 setter 以方便自定义连接池。）
 
